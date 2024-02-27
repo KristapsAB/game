@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&display=swap');
+
+*{
+    padding:0;
+    margin:0;
+}
+body{
+    font-family: 'Bebas Neue', sans-serif;
+    background-color:#000000;
+    color:#FFFEF2;
+}
+.login-main{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-content: center;
+    height: 100vh;
+    width: 100%;
+    align-items: center;
+}
+label{
+    text-align: center;
+    display:flex;
+    font-size:2rem;
+}
+input{
+    width:350px;
+    height:40px;
+    border-radius:5px;
+    outline: none;
+    border: none;
+    color:#000000;
+    margin:15px;
+    font-size:1.5rem;
+    font-weight:700;
+}
+h2{
+    font-size:4rem;
+}
+button{
+    /* display:flex; */
+    margin:auto;
+    margin-top:20px;
+    width:200px;
+    height:50px;
+    align-content: center;
+    font-size:1.5rem;
+    font-weight:600;
+    text-align: center;
+    background-color:transparent;
+    border:none;
+    color:#FFFEF2;
+    border-radius:5px;
+    outline:#FE522A 3px solid;
+    cursor: pointer;
+}
+.button{
+
+    display:flex;
+
+}
+input::placeholder {
+    text-align: center;
+    display: flex;
+    font-size: 1.5rem;
+    color: #000000; /* Change this to your desired color code */
+    opacity: 1; /* Ensure full opacity */
+    font-weight:700;
+}
+.icon1{
+    position:absolute;
+    margin-right:500px;
+    width:100px;
+    height:100px;
+    rotate: -10deg;
+}
+.icon2{
+    position:absolute;
+    margin-right:700px;
+    margin-top:300px;
+    width:100px;
+    height:100px;
+    rotate: 15deg;
+}
+.icon3{
+    position:absolute;
+    margin-right:-700px;
+    margin-top:300px;
+    width:100px;
+    height:100px;
+    rotate: -15deg;
+}
+.icon4{
+    position:absolute;
+    margin-right:-500px;
+    width:100px;
+    height:100px;
+    rotate: 10deg;
+}
+.icon5{
+    position:absolute;
+    margin-right:900px;
+    margin-bottom:300px;
+    width:100px;
+    height:100px;
+    rotate: 10deg;
+}
+.icon6{
+    position:absolute;
+    margin-right:-900px;
+    margin-bottom:300px;
+    width:100px;
+    height:100px;
+    rotate: -10deg;
+}
+.icon7{
+    position:absolute;
+    margin-right:500px;
+    margin-bottom:300px;
+    width:100px;
+    height:100px;
+    rotate: 10deg;
+}
+.icon8{
+    position:absolute;
+    margin-left:800px;
+    margin-bottom:100px;
+    margin-top:520px;
+    width:100px;
+    height:100px;
+    rotate: -10deg;
+}
+
+
+/* level */
+.level-main{
+    display:flex;
+    width:89%;
+    height:100vh;
+    background-color:#000000;
+    justify-content: end;
+    align-items: center;    
+    flex-wrap:wrap;
+}
+.level-container{
+    width:18%;
+    height:50vh;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-content: center;
+    outline: solid 5px #FFD700;
+    border-radius:10px;
+    margin:15px;
+    background-image: url(../image/cardbg.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    flex-wrap: wrap;
+    letter-spacing: 2px; /* Adjust the value as needed */
+    position: relative;
+
+}
+.level-container h2, h1, p{
+    font-size:2rem;
+    font-family: 'Bebas Neue', sans-serif;
+    color:#000000;
+    text-shadow: 
+    -1px -1px 0 #FFFEF2, /* Top left */
+    1px -1px 0 #FFFEF2, /* Top right */
+   -1px  1px 0 #FFFEF2, /* Bottom left */
+    1px  1px 0 #FFFEF2; /* Bottom right */
+    letter-spacing: 2px; /* Adjust the value as needed */
+    position: relative;
+}
+.time{
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: #000000;
+    text-shadow: 
+    -1px -1px 0 #FFFEF2, /* Top left */
+    1px -1px 0 #FFFEF2, /* Top right */
+   -1px  1px 0 #FFFEF2, /* Bottom left */
+    1px  1px 0 #FFFEF2; /* Bottom right */
+    letter-spacing: 2px; /* Adjust the value as needed */
+    position: relative;
+}
+.clock{
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: #000000;
+    text-shadow: 
+    -1px -1px 0 #FFFEF2, /* Top left */
+    1px -1px 0 #FFFEF2, /* Top right */
+   -1px  1px 0 #FFFEF2, /* Bottom left */
+    1px  1px 0 #FFFEF2; /* Bottom right */
+    letter-spacing: 2px; /* Adjust the value as needed */
+    position: relative;
+}
+.level-container4{
+    width:18%;
+    height:50vh;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-content: center;
+    outline: solid 5px #FFD700;
+    border-radius:10px;
+    margin:15px;
+    background-image: url(../image/cardbg.png);
+    letter-spacing: 2px; /* Adjust the value as needed */
+    position: relative;
+}
+.level-container4 p, h2{
+    font-size:2rem;
+    font-family: 'Bebas Neue', sans-serif;
+    color:#000000;
+    text-shadow: 
+    -1px -1px 0 #FFFEF2, /* Top left */
+     1px -1px 0 #FFFEF2, /* Top right */
+    -1px  1px 0 #FFFEF2, /* Bottom left */
+     1px  1px 0 #FFFEF2; /* Bottom right */
+     position: relative;
+     letter-spacing: 2px; /* Adjust the value as needed */
+
+}
+.login-main h2{
+    font-size:4rem;
+}
+.level-container4 img{
+    width:150px;
+    height:150px;
+    margin:auto;
+    transform: rotate(360deg);
+
+}
+.level-container img{
+    width:150px;
+    height:150px;
+    margin:auto;
+    transform: rotate(360deg);
+
+}
+a {
+    text-decoration: none;
+}

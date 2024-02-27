@@ -1,0 +1,381 @@
+@import url('https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&display=swap');
+
+.game-main{
+    width:100%;
+    height:100vh;
+    display:flex;
+    align-content: center;
+    background-image: url( ../image/background.jpg );
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    flex-direction: column;
+    margin:auto;
+    overflow: hidden;
+}
+.game-main button{
+    font-family: 'Just Me Again Down Here', cursive;
+    font-size: 3rem;
+    width: 300px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    color:#850B05;
+    text-shadow: #A9B949 1px 0 3px;
+    border-radius: 10px;
+    background-color: #1C0919;
+    outline: #FFD700 7px solid;
+    border-radius:10px;
+    flex-wrap:wrap;
+}
+
+.game-buttons{
+    display:flex;
+    justify-content: space-evenly;
+    width:80%;
+    height:30vh;
+    margin:auto;
+    margin-top:30px;
+}
+.timer-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    height: auto;
+    font-size: 4rem;
+    color: #FFD700;
+    padding: 7px;
+    border-radius:20px;
+    height: 5vh;
+    width: 300px;
+    position: relative; /* Position relative for absolute positioning of the pseudo-element */
+    border-bottom: #FFD700 5px solid ;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: #FFD700 2px 2px 2px 2px;
+    margin-top:15px;
+    align-items: center;
+}
+.card-container{
+    width:90%;
+    height:100vh;
+    margin:auto;
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.card1{
+    width:192px;
+    height:295px;
+    background-image:url(../image/cardbg.png);
+    background-size: 100% 100%;
+    position:relative;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-radius:20px;
+    flex-direction: column;
+    margin:10px;
+    transition: transform 0.5s ease-in-out;
+    outline: #FFD700 5px solid;
+}
+.flipped {
+    transform: rotateY(180deg);
+  }
+.card1 img{
+    width:123px;
+    height:114px;
+    transform: rotateY(180deg); /* You might have a different transform here */
+    position: relative;
+    bottom:120px;
+}
+.card-text-first{
+display:flex;
+flex-direction: row;
+text-align: left;
+width:80%;
+rotate: 180deg;
+flex-direction: column;
+font-family: 'Just Me Again Down Here', cursive;
+font-size:3rem;
+color:#850B05;
+text-shadow:#A9B949 1px 0 3px;
+}
+.card-text-first img{
+    position: relative;
+    width:37px;
+    height:37px;
+    margin-right:25px;
+    right: 6px;
+}
+
+.card-text-second{
+    display:flex;
+    flex-direction: row;
+    text-align: left;
+    width:80%;
+    flex-direction: column;
+    font-family: 'Just Me Again Down Here', cursive;
+    font-size:3rem;
+    color:#850B05;
+    text-shadow:#A9B949 1px 0 3px;
+    }
+    .card-text-second img{
+        position: relative;
+        width:37px;
+        height:37px;
+        margin-right:25px;
+        right: 6px;
+    }
+.heart-icon{
+    width: 100%;
+    height: auto;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+.spade-icon{
+    width: 100%;
+    height: auto;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+.spade-icon img{
+    width:231px;
+    height:219px;
+}
+.card-text-forth{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 80%;
+    font-family: 'Just Me Again Down Here', cursive;
+    font-size: 3rem;
+    color: #000000;
+    text-shadow: 
+        -1px -1px 0 #A9966C, /* Top left */
+         1px -1px 0 #A9966C, /* Top right */
+        -1px  1px 0 #A9966C, /* Bottom left */
+         1px  1px 0 #A9966C; /* Bottom right */
+    }
+    .card-text-forth img{
+        position: relative;
+        left: -20px;
+        width: 60px;
+        height: 60px;
+        top: 60px;
+}
+.card-text-forth p{
+    position: relative;
+top:80px;
+}
+.card-text-third {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 80%;
+    rotate: 180deg;
+    font-family: 'Just Me Again Down Here', cursive;
+    font-size: 3rem;
+    color: #000000;
+    text-shadow: 
+        -1px -1px 0 #A9966C, /* Top left */
+         1px -1px 0 #A9966C, /* Top right */
+        -1px  1px 0 #A9966C, /* Bottom left */
+         1px  1px 0 #A9966C; /* Bottom right */
+}
+.special-text{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 80%;
+    font-family: 'Just Me Again Down Here', cursive;
+    font-size: 3rem;
+    top:10px;
+    color: #000000;
+    margin-bottom: -15px;
+    position: relative;
+    text-shadow: 
+        -1px -1px 0 #A9966C, /* Top left */
+         1px -1px 0 #A9966C, /* Top right */
+        -1px  1px 0 #A9966C, /* Bottom left */
+         1px  1px 0 #A9966C; /* Bottom right */
+
+}
+.special-text-bottom-right {
+    transform: rotate(180deg);
+    position: relative;
+  right: 100px;
+  }
+  .image-bottom-right {
+    /* Your custom styling for the image in the bottom right corner */
+    width: 50px; /* Adjust the width as needed */
+    height: 50px; /* Adjust the height as needed */
+    margin-top: 10px; /* Add margin or other positioning styles as needed */
+  }
+.special-text img{
+    position: relative;
+    left: -20px;
+    width: 60px;
+    height: 60px; 
+    bottom:20px;
+}
+.hearts{
+    width:30px;
+}
+    .card-text-third img{
+        position: relative;
+  width: 60px;
+  height: 60px;
+  right: 25px;
+  bottom: -60px;
+    }
+    .card-text-third p{
+        position: relative;
+        bottom:-80px;
+        right: 6px;
+        }
+.card-text-p{
+    color: #000000; /* Specify the text color */
+    text-shadow: 
+    -1px -1px 0 #850B05, /* Top left */
+    1px -1px 0 #850B05, /* Top right */
+   -1px  1px 0 #850B05, /* Bottom left */
+    1px  1px 0 #850B05; /* Bottom right */
+}
+.card1.bottom-right .card-text-first img.bottom-right-image {
+    /* Your custom styles here */
+    width: 60px; /* Adjust the width as needed */
+    height:60px;
+    position: relative;
+    right:20px;
+  }
+  
+  /* Apply styles to the custom text within the card with id 4, 5, and 6 */
+  .card1.bottom-right .card-text-first p.special-text {
+    position: relative;
+    bottom:10px;
+  }
+  .hidden {
+    display: none;
+  }
+  
+  .symbol {
+    position: relative;
+    color:#000000;
+    bottom: 60px;
+    left: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30px;
+
+  }
+  .text {
+    font-size: 3rem;
+    color: #000000;
+    font-family: 'Just Me Again Down Here', cursive;
+position: relative;
+top: 70px;
+  transform: rotateY(180deg); /* You might have a different transform here */
+  text-shadow:
+    1px 1px 0 #A9966C,
+    -1px 1px 0 #A9966C,
+    1px -1px 0 #A9966C,
+    -1px -1px 0 #A9966C;
+
+  }
+  .bottom-right{
+    position: relative;
+    top:160px;
+    right:130px;
+    transform: rotateY(180deg); /* You might have a different transform here */
+    text-shadow:
+      1px 1px 0 #A9966C,
+      -1px 1px 0 #A9966C,
+      1px -1px 0 #A9966C,
+      -1px -1px 0 #A9966C;
+      font-size: 3rem;
+      color: #000000;
+      font-family: 'Just Me Again Down Here', cursive;
+      rotate: 180deg;
+  }
+  .bottom-right .icon{
+    text-shadow:none;
+    position:relative;
+    top:-30px;
+    right:5px;
+    text-shadow:
+      1px 1px 0 #A9966C,
+      -1px 1px 0 #A9966C,
+      1px -1px 0 #A9966C,
+      -1px -1px 0 #A9966C;
+      display: flex;
+  margin-bottom: -60px;
+  }
+.top-left .icon{
+    position: relative;
+    top:60px;
+    font-size:4rem;
+    text-shadow:
+      1px 1px 0 #A9966C,
+      -1px 1px 0 #A9966C,
+      1px -1px 0 #A9966C,
+      -1px -1px 0 #A9966C;
+      left: 6px;
+}
+.popup {
+    position: absolute;
+    display: flex;
+    width: 600px;
+    height: 550px;
+    background-image: url(../image/cardbg.png);
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    font-family: 'Just Me Again Down Here', cursive;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    outline: #FFD700 5px solid;
+    /* new styles for backdrop-filter */
+    backdrop-filter: blur(8px); /* adjust the blur strength as needed */
+    z-index: 9999; /* Ensure the popup is on top */
+  }
+  
+  .popup button {
+    /* existing styles for .popup button */
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    position: relative;
+    bottom: 90px;
+    height: 70px;
+  }
+  
+  .popup p {
+    /* existing styles for .popup p */
+    margin-top: auto;
+    font-size: 4rem;
+    text-align: center;
+  }
+  
+  .blur {
+    /* new styles for the blur effect */
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(8px); /* adjust the blur strength as needed */
+    z-index: 9998; /* Ensure the blur is behind the popup */
+  }
+  
