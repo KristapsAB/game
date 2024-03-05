@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './style/Nav.css';
-import FontSelector from './FontSelector'; // Adjust the path accordingly
+import BackgroundSelector from './BackgroundSelector'; // Adjust the path accordingly
+
 const MainMenu = () => {
   // State for theme
+  const [selectedBackground, setSelectedBackground] = useState('');
   const [isDarkTheme, setIsDarkTheme] = useState(() => {
     // Retrieve theme preference from localStorage or use default value
     return localStorage.getItem('isDarkTheme') === 'true' ? true : false;
@@ -10,6 +12,12 @@ const MainMenu = () => {
 
   // State for user's coins
   const [userCoins, setUserCoins] = useState(0);
+  const handleBackgroundChange = (background) => {
+    // Save the selected background in localStorage
+    localStorage.setItem('selectedBackground', background);
+    setSelectedBackground(background);
+  };
+
 
   // State for logged-in username
   const [loggedInUsername, setLoggedInUsername] = useState('');
@@ -97,7 +105,7 @@ const MainMenu = () => {
           <li>
             <a href="#">
               <i className="fa fa-signal fa-2x"></i>
-              <span className="nav-text">Statistics</span>
+              <span className="nav-text">Game History</span>
             </a>
           </li>
           <li>
@@ -115,7 +123,7 @@ const MainMenu = () => {
           <li>
             <a href="#">
               <i className="fa fa-heart fa-2x"></i>
-              <span className="nav-text">Balance: {userCoins} Coins</span>
+              <span className="nav-text">Credits: {userCoins} </span>
             </a>
           </li>
         </ul>

@@ -27,6 +27,21 @@
 .table {
     width: 100%;
 }
+.trophy-icon {
+  color: gold; /* Set the color for the trophy icon */
+}
+
+.silver-icon {
+  color: silver; /* Set the color for the silver icon */
+}
+
+.bronze-icon {
+  color: #cd7f32; /* Set the color for the bronze icon */
+}
+
+.default-icon {
+  color: #333; /* Set the color for the default icon */
+}
 
 .rank-container {
     width: 80%;
@@ -64,6 +79,8 @@
     padding: 0;
     justify-content: center;
     display: flex;
+    position: relative;
+    right:30px;
 }
 
 .pagination button {
@@ -86,3 +103,52 @@
     position: relative;
     left:30px;
 }
+/* style/leaderboard.css */
+
+/* ... (your existing CSS) */
+
+/* Responsive Styles */
+
+/* Adjust the font size of h2 for smaller screens */
+@media screen and (max-width: 768px) {
+    .leaderboard-main h2 {
+      font-size: 4rem;
+    }
+  
+    /* Adjust the font size of rank icons */
+    .rank i {
+      font-size: 1.5rem;
+    }
+  
+    /* Adjust the font size of username and score */
+    .username,
+    .score {
+      font-size: 1rem;
+    }
+  
+    /* Adjust margin for rank-container */
+    .rank-container {
+      margin-top: 10px;
+    }
+  }
+  
+  /* Adjust styles for even smaller screens */
+  @media screen and (max-width: 480px) {
+    .leaderboard-main h2 {
+      font-size: 3rem;
+    }
+  
+    .rank i {
+      font-size: 1rem;
+    }
+  
+    .username,
+    .score {
+      font-size: 0.8rem;
+    }
+  
+    .rank-container {
+      margin-top: 5px;
+    }
+  }
+  

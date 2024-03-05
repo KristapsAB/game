@@ -44,7 +44,7 @@ const Register = () => {
         });
         return;
       }
-
+  
       if (!isUsernameValid(username)) {
         setRegistrationStatus({
           success: false,
@@ -52,7 +52,15 @@ const Register = () => {
         });
         return;
       }
-
+  
+      if (password.length < 7) {
+        setRegistrationStatus({
+          success: false,
+          message: 'Password must be at least 7 characters long.',
+        });
+        return;
+      }
+  
       const response = await fetch('http://localhost:8888/game/register.php', {
         method: 'POST',
         headers: {
@@ -61,26 +69,27 @@ const Register = () => {
         body: JSON.stringify({ email, username, password }),
         credentials: 'omit',
       });
-
+  
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
+  
       const result = await response.json();
-
+  
       setRegistrationStatus({
         success: result.success,
         message: result.message,
       });
     } catch (error) {
       console.error('Error:', error);
-
+  
       setRegistrationStatus({
         success: false,
         message: 'Error during registration. Please try again later.',
       });
     }
   };
+  
   
   return (
     <div className="login-main">

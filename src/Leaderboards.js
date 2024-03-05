@@ -56,25 +56,28 @@ const Leaderboard = () => {
 
   const getRankIcon = (rank) => {
     if (rank === 1) {
-      return <i className="fa fa-trophy fa-2x"></i>; // Trophy icon for rank 1
+      return <i className="fa fa-trophy fa-2x trophy-icon"></i>; // Trophy icon for rank 1
     } else if (rank === 2) {
-      return <i className="fa fa-star fa-2x"></i>; // Medal icon for rank 2
+      return <i className="fa fa-trophy fa-2x silver-icon"></i>; // Medal icon for rank 2
     } else if (rank === 3) {
-      return <i className="fa fa-heart fa-2x"></i>; // Award icon for rank 3
+      return <i className="fa fa-trophy fa-2x bronze-icon"></i>; // Award icon for rank 3
     } else {
-      return <i className="fa fa-user fa-2x"></i>; // Default icon for other ranks
+      return <i className="fa fa-trophy fa-2x default-icon"></i>; // Default icon for other ranks
     }
   };
+
+  const globalIndex = (currentPage - 1) * itemsPerPage;
+  
 
   return (
     <div className='leaderboard-container'>
       <div className="leaderboard-main">
         <h2>Leaderboard</h2>
         <div className='rank-container'>
-          {currentLeaderboardData.map((entry, index) => (
-            <div key={index} className='rank-item'>
+          {currentLeaderboardData.map((entry, localIndex) => (
+            <div key={localIndex} className='rank-item'>
               <div className='rank'>
-                {getRankIcon(index + 1)} {index + 1}
+                {getRankIcon(globalIndex + localIndex + 1)} {globalIndex + localIndex + 1}
               </div>
               <div className='username'>{entry.username}</div>
               <div className='score'>{entry.score}</div>
@@ -101,5 +104,6 @@ const Leaderboard = () => {
     </div>
   );
 };
+
 
 export default Leaderboard;

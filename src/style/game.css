@@ -13,20 +13,23 @@
     overflow: hidden;
 }
 .game-main button{
-    font-family: 'Just Me Again Down Here', cursive;
+  font-family: 'Bebas Neue', sans-serif;
     font-size: 3rem;
     width: 300px;
     display: flex;
     align-content: center;
     justify-content: center;
     align-items: center;
-    color:#850B05;
+    color:rgb(233, 95, 95);
     text-shadow: #A9B949 1px 0 3px;
     border-radius: 10px;
     background-color: #1C0919;
     outline: #FFD700 7px solid;
     border-radius:10px;
     flex-wrap:wrap;
+    -webkit-text-stroke-color: red;
+    -webkit-text-stroke-width: 1px;
+    letter-spacing: 2px;
 }
 
 .game-buttons{
@@ -57,11 +60,13 @@
     align-items: center;
 }
 .card-container{
-    width:90%;
+    width:100%;
     height:100vh;
     margin:auto;
     display:flex;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .card1{
@@ -349,13 +354,14 @@ top: 70px;
   }
   
   .popup button {
-    /* existing styles for .popup button */
     display: flex;
     justify-content: center;
     margin-top: auto;
     position: relative;
     bottom: 90px;
     height: 70px;
+    position: relative;
+    top: 30px;
   }
   
   .popup p {
@@ -378,4 +384,36 @@ top: 70px;
     backdrop-filter: blur(8px); /* adjust the blur strength as needed */
     z-index: 9998; /* Ensure the blur is behind the popup */
   }
+  .card-container-80{
+    width:90%;
+    display:flex;
+    flex-wrap:wrap;
+    position: relative;
+    left:30px;
+  }
+
+  .corner-alert {
+    position: absolute;
+    top: 120px;
+    right: 820px;
+    background-color:transparent;
+    color: red;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    word-wrap: break-word;
+    
+  }
+  .corner-alert p{
+    text-shadow: 
+    -1px -1px 0 #A9966C, /* Top left */
+     1px -1px 0 #A9966C, /* Top right */
+    -1px  1px 0 #A9966C, /* Bottom left */
+     1px  1px 0 #A9966C; /* Bottom right */
+
+  }
+  .alert-message {
+    margin: 0;
+  }
+  
   

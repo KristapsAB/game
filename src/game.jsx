@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './style/game.css'; // Adjust the file path based on your project structure
+import './style/game.css';
 import hearts from './image/heart.png';
 import spade from './image/spade.png';
 import diamondSide from './image/diamond-side.png';
@@ -12,6 +12,7 @@ const Game = () => {
   const hintDelay = 3000; // milliseconds for hint delay
   const gameDuration = 120; // seconds for game duration
   const navigate = useNavigate();
+  const [insufficientCoins, setInsufficientCoins] = useState(false);
 
   const generateRandomCards = () => {
     const initialCards = symbols
@@ -29,6 +30,11 @@ const Game = () => {
     return initialCards.sort(() => Math.random() - 0.5);
   };
 
+  const handleRetry = () => {
+    setShowGiveUpPopup(false);
+    resetGame();
+  };
+
   const [cards, setCards] = useState(generateRandomCards());
   const [flippedCount, setFlippedCount] = useState(0);
   const [flippedIndexes, setFlippedIndexes] = useState([]);
@@ -38,12 +44,44 @@ const Game = () => {
   const [gameOver, setGameOver] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
   const [userId, setUserId] = useState(""); // State to store user ID
+  const [showGiveUpPopup, setShowGiveUpPopup] = useState(false);
+  const [coins, setCoins] = useState(0); // State to store user's coins
 
   useEffect(() => {
     // Fetch userId from sessionStorage
     const storedUserId = sessionStorage.getItem('userId');
     setUserId(storedUserId);
-  }, []);
+
+    // Fetch user's coin balance
+    const fetchCoinBalance = async () => {
+      try {
+        const coinBalanceResponse = await fetch(
+          `http://localhost:8888/game/getUserCoins.php?userId=${storedUserId}`
+        );
+
+        if (!coinBalanceResponse.ok) {
+          console.error(`HTTP error! Status: ${coinBalanceResponse.status}`);
+          console.log('Response text:', await coinBalanceResponse.text());
+          return;
+        }
+
+        const coinBalanceResult = await coinBalanceResponse.json();
+
+        if (coinBalanceResult.success) {
+          // Update user's coin balance in state
+          setCoins(coinBalanceResult.coins);
+        } else {
+          console.error('Failed to fetch coin balance:', coinBalanceResult.message);
+        }
+      } catch (error) {
+        console.error('Error fetching coin balance:', error);
+      }
+    };
+
+    if (storedUserId) {
+      fetchCoinBalance();
+    }
+  }, []); 
 
   useEffect(() => {
     if (flippedCount === numberOfMatchesToWin && !checkingForMatch) {
@@ -62,7 +100,7 @@ const Game = () => {
           return gameDuration; // Ensure the timer stops at 2:00
         }
         if (gameCompleted) {
-          // If game is completed, stop the timer
+          // If the game is completed, stop the timer
           clearInterval(intervalId);
           return prevTimer;
         }
@@ -146,52 +184,85 @@ const Game = () => {
     setTimer(0);
     setGameOver(false);
     setGameCompleted(false);
+    setShowGiveUpPopup(false); // Hide the "Give Up" popup on reset
   };
 
   const useHint = async () => {
     if (!hintUsed) {
       try {
-        // Deduct coins from the database
-        const url = 'http://localhost:8888/game/updateCoins.php';
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: `userId=${userId}`,
-          credentials: 'include',
-          mode: 'cors',
-        });
+        // Check if the user has enough coins
+        if (coins > 0) {
+          // Deduct coins from the database
+          const url = 'http://localhost:8888/game/deductCoinsForHint.php';
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `userId=${userId}`,
+            credentials: 'include',
+            mode: 'cors',
+          });
   
-        if (!response.ok) {
-          console.error(`HTTP error! Status: ${response.status}`);
-          console.log('Response text:', await response.text());
-          return;
-        }
+          if (!response.ok) {
+            console.error(`HTTP error! Status: ${response.status}`);
+            console.log('Response text:', await response.text());
+            return;
+          }
   
-        const result = await response.json();
+          const result = await response.json();
   
-        if (result.success) {
-          // Coins deducted successfully, now reveal the cards
-          setHintUsed(true);
+          if (result.success) {
+            // Coins deducted successfully, now reveal the cards
+            setHintUsed(true);
   
-          setTimeout(() => {
-            setCards((prevCards) =>
-              prevCards.map((card) => ({ ...card, flipped: true }))
+            setTimeout(() => {
+              setCards((prevCards) =>
+                prevCards.map((card) => ({ ...card, flipped: true }))
+              );
+            }, 0);
+  
+            setTimeout(() => {
+              setCards((prevCards) =>
+                prevCards.map((card) => ({
+                  ...card,
+                  flipped: card.matched ? true : false,
+                }))
+              );
+              setHintUsed(false);
+            }, hintDelay);
+  
+            // Update user's coin balance after using hint
+            const updatedCoinsResponse = await fetch(
+              `http://localhost:8888/game/getUserCoins.php?userId=${userId}`
             );
-          }, 0);
   
-          setTimeout(() => {
-            setCards((prevCards) =>
-              prevCards.map((card) => ({
-                ...card,
-                flipped: card.matched ? true : false,
-              }))
-            );
-            setHintUsed(false);
-          }, hintDelay);
+            if (updatedCoinsResponse.ok) {
+              const updatedCoinsResult = await updatedCoinsResponse.json();
+              if (updatedCoinsResult.success) {
+                // Update user's coin balance in state
+                setCoins(updatedCoinsResult.coins);
+              } else {
+                console.error('Failed to fetch updated coin balance:', updatedCoinsResult.message);
+              }
+            } else {
+              console.error(`HTTP error! Status: ${updatedCoinsResponse.status}`);
+              console.log('Response text:', await updatedCoinsResponse.text());
+            }
+          } else {
+            console.error('Failed to deduct coins:', result.message);
+          }
         } else {
-          console.error('Failed to deduct coins:', result.message);
+          // User doesn't have enough coins
+          console.log('User has 0 coins. Cannot use hint.');
+  
+          // Display insufficient coins message
+          setInsufficientCoins(true);
+  
+          // Hide the message after a few seconds (e.g., 3 seconds)
+          setTimeout(() => {
+            setInsufficientCoins(false);
+          }, 3000);
         }
       } catch (error) {
         console.error('Error:', error);
@@ -199,15 +270,14 @@ const Game = () => {
     }
   };
   
-
   const handleGameCompletion = async () => {
     try {
       const level = 1; // Replace with the actual level
       const score = calculateScore(); // Implement a function to calculate the score
-  
+
       // Replace the URL with the actual URL of your PHP script
       const url = 'http://localhost:8888/game/saveScore.php';
-  
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -217,48 +287,52 @@ const Game = () => {
         credentials: 'include', // Add this line
         mode: 'cors', // Add this line
       });
-  
+
       if (!response.ok) {
         console.error(`HTTP error! Status: ${response.status}`);
         console.log('Response text:', await response.text());
         return;
       }
-  
+
       const result = await response.json();
-  
+
       if (result.success) {
-        // Score updated successfully, now update the user's coins
-        const coinsEarned = 5;
-  
-        const updateCoinsUrl = 'http://localhost:8888/game/updateCoins.php'; // Replace with the actual URL
-        const updateCoinsResponse = await fetch(updateCoinsUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: `userId=${userId}&coins=${coinsEarned}`,
-          credentials: 'include', // Add this line
-          mode: 'cors', // Add this line
-        });
-  
-        if (!updateCoinsResponse.ok) {
-          console.error(`HTTP error! Status: ${updateCoinsResponse.status}`);
-          console.log('Response text:', await updateCoinsResponse.text());
-          return;
+        // Score updated successfully
+
+        // Check if the game is completed before adding coins
+        if (gameCompleted) {
+          const coinsEarned = 5;
+
+          const updateCoinsUrl = 'http://localhost:8888/game/updateCoins.php'; // Replace with the actual URL
+          const updateCoinsResponse = await fetch(updateCoinsUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `userId=${userId}&coins=${coinsEarned}`,
+            credentials: 'include', // Add this line
+            mode: 'cors', // Add this line
+          });
+
+          if (!updateCoinsResponse.ok) {
+            console.error(`HTTP error! Status: ${updateCoinsResponse.status}`);
+            console.log('Response text:', await updateCoinsResponse.text());
+            return;
+          }
+
+          const updateCoinsResult = await updateCoinsResponse.json();
+
+          if (updateCoinsResult.success) {
+            console.log('Coins updated successfully');
+          } else {
+            console.error('Failed to update coins:', updateCoinsResult.message);
+          }
         }
-  
-        const updateCoinsResult = await updateCoinsResponse.json();
-  
-        if (updateCoinsResult.success) {
-          console.log('Coins updated successfully');
-        } else {
-          console.error('Failed to update coins:', updateCoinsResult.message);
-        }
-  
-        console.log('Score and Coins updated successfully');
-  
+
+        console.log('Score updated successfully');
+
         // Redirect to the start page
-        navigate('/levels'); // Replace '/start' with the actual route of your start page
+        // navigate('/levels'); // Replace '/start' with the actual route of your start page
       } else {
         console.error('Failed to update score:', result.message);
       }
@@ -266,8 +340,6 @@ const Game = () => {
       console.error('Error:', error);
     }
   };
-  
-  
 
   const calculateScore = () => {
     // Implement the logic to calculate the score based on game performance
@@ -287,6 +359,15 @@ const Game = () => {
 
   return (
     <div className="game-main">
+      {showGiveUpPopup && (
+        <div className="blur">
+          <div className="popup">
+            <p>Press Play Again to Retry</p>
+            <button onClick={handleRetry}>Retry</button>
+          </div>
+        </div>
+      )}
+
       {gameCompleted && (
         <div className="blur">
           <div className="popup">
@@ -297,30 +378,38 @@ const Game = () => {
         </div>
       )}
 
+      {insufficientCoins && (
+        <div className="corner-alert">
+          <p className="alert-message">Insufficient coins. Earn more to use hints</p>
+        </div>
+      )}
       <div className="game-buttons">
         <button onClick={useHint} disabled={hintUsed}>
           HINT
         </button>
         <div className="timer-container">{formatTime(timer)}</div>
-        <button onClick={resetGame}>GIVE UP</button>
+        <button onClick={() => setShowGiveUpPopup(true)}>GIVE UP</button>
       </div>
+
       <div className="card-container">
-        {cards.map((card, index) => (
-          <div
-            key={card.id}
-            className={`card1 ${card.flipped ? 'flipped' : ''} ${
-              card.matched ? 'matched' : ''
-            }`}
-            onClick={() => handleCardClick(index)}
-          >
-            {card.flipped && (
-              <>
-                {renderCornerSymbol(card.type)}
-                <img src={card.img} alt="Icon" />
-              </>
-            )}
-          </div>
-        ))}
+        <div className="card-container-80">
+          {cards.map((card, index) => (
+            <div
+              key={card.id}
+              className={`card1 ${card.flipped ? 'flipped' : ''} ${
+                card.matched ? 'matched' : ''
+              }`}
+              onClick={() => handleCardClick(index)}
+            >
+              {card.flipped && (
+                <>
+                  {renderCornerSymbol(card.type)}
+                  <img src={card.img} alt="Icon" />
+                </>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
       {gameOver && (
         <div className="blur">
