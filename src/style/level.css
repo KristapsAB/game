@@ -1,0 +1,74 @@
+/* ... existing styles ... */
+@import url('https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&display=swap');
+
+.levels-container {
+    display: flex;
+    align-items: center;
+    width:100%;
+    padding: 20px;
+    width:100%;    background-color: #000000; /* Light gray background */
+    flex-direction: row;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+  }
+  
+  .title {
+    font-size: 2em;
+    margin-bottom: 20px;
+    /* Adjust text color as needed */
+    color: #333; /* Dark gray text */
+  }
+  
+  .level-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    width:80%;
+  }
+  
+  .level-card {
+    background-color: transparent; /* White background for cards */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    border: 3px solid #FFFB95;
+    border-radius:30px;
+    width:200px;
+  }
+  .level-card button{
+    border:none;
+    outline: none;
+  }
+  .level-card button:hover{
+    background-color: #C88688;
+  }
+  .level-header,
+  .level-body {
+    margin-bottom: 10px;
+  }
+  
+  .level-header h2 {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    font-family: 'Bebas Neue', sans-serif;
+    color:white;
+    text-shadow: red 0px 3.5px;
+  }
+  
+  .level-header p,
+  .level-body p {
+    font-size: 1.5rem;
+    margin: 0;
+    font-family: 'Bebas Neue', sans-serif;
+  }
+  /* In your level.css file */
+
+  .pagination {
+    display: flex;
+    justify-content: flex-end; /* Align to the right */
+    align-items: center;
+    margin-top: 20px; /* Adjust spacing as needed */
+  }
+  
+

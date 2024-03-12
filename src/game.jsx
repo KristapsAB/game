@@ -4,20 +4,24 @@ import hearts from './image/heart.png';
 import spade from './image/spade.png';
 import diamondSide from './image/diamond-side.png';
 import Clubs from './image/clubs.png';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Game = () => {
+  const location = useLocation();
+  const levelConfig = location.state;
   const symbols = [hearts, spade, diamondSide, Clubs];
-  const numberOfMatchesToWin = 3;
-  const hintDelay = 3000; // milliseconds for hint delay
-  const gameDuration = 120; // seconds for game duration
+  const numberOfCards = levelConfig?.numberOfCards || 12; // Adjust the default value as needed
+  const numberOfMatchesToWin = levelConfig?.numberOfMatchesToWin || 3;
+  const hintDelay = levelConfig?.hintDelay || 3000;
+  const gameDuration = levelConfig?.gameDuration || 120;
   const navigate = useNavigate();
   const [insufficientCoins, setInsufficientCoins] = useState(false);
 
+  console.log('Level Config:', levelConfig);
   const generateRandomCards = () => {
     const initialCards = symbols
       .map((symbol, index) =>
-        Array.from({ length: 3 }, () => ({
+        Array.from({ length: numberOfCards / symbols.length }, () => ({
           id: Math.random(),
           img: symbol,
           matched: false,
@@ -30,12 +34,15 @@ const Game = () => {
     return initialCards.sort(() => Math.random() - 0.5);
   };
 
+  
+
   const handleRetry = () => {
     setShowGiveUpPopup(false);
     resetGame();
   };
 
-  const [cards, setCards] = useState(generateRandomCards());
+  const [cards, setCards] = useState(generateRandomCards(levelConfig?.numberOfCards || 12));
+
   const [flippedCount, setFlippedCount] = useState(0);
   const [flippedIndexes, setFlippedIndexes] = useState([]);
   const [checkingForMatch, setCheckingForMatch] = useState(false);

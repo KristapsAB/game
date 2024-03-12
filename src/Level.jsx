@@ -1,25 +1,29 @@
-// Levels.js
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './style/styles.css'; // Adjust the file path based on your project structure
-import Heart from './image/heart.png';
-import Diamond from './image/diamond-side.png';
+import './style/level.css'; // Import your CSS file
 
-const Levels = () => {
-  const totalLevels = 20;
-
+const Levels = ({ levels }) => {
   return (
-    <div className="level-main">
-      <div className='level-main-80'>
-        {[...Array(totalLevels).keys()].map((index) => (
-          <Link key={index + 1} to={`/level/${index + 1}`} className="level-link">
-            <div className="level-container">
-              <h1>{`Level ${index + 1}`}</h1>
-              <p>{(Math.random() * 5 + 1).toFixed(2)} </p>
-              {/* Add more level information or components as needed */}
+    <div className="levels-container">
+   
+      <div className="level-grid">
+        {levels.map((level, index) => (
+          <div className="level-card" key={index}>
+            <div className="level-header">
+              <h2>Level {index + 1}</h2>
+              <p>Cards: {level.cardsCount}</p>
             </div>
-          </Link>
+            <div className="level-body">
+              <p>Duration: {level.gameDuration} seconds</p>
+              <p>Reward: {level.reward} coins</p>
+            </div>
+            <Link
+              to={`/level/${index + 1}`}
+              state={{ ...level, numberOfCards: level.cardsCount }}
+            >
+              <button>Play Level {index + 1}</button>
+            </Link>
+          </div>
         ))}
       </div>
     </div>
