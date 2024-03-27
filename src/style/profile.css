@@ -22,15 +22,24 @@
     /* outline: solid 5px #FFFB95; */
     border-radius:25px;
     font-family: "Bevan", serif;
+    overflow:hidden;
     text-transform: uppercase;
     /* box-shadow: 0px 4px 20px 0px rgba(255,215,0,0.6);
     -webkit-box-shadow: 0px 4px 20px 0px rgba(255,215,0,0.6);
     -moz-box-shadow: 0px 4px 20px 0px rgba(255,215,0,0.6); */
 
 }
+.success-message{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    font-family: "Press Start 2P", system-ui;
+    color:#BB885F;
+}
 
 .a-background{
-    outline: solid 3px #F37F6F;
+    outline: 3px solid #0000004D;
     width:250px;
     height:17vh; 
     margin:10px;
@@ -54,60 +63,75 @@
     text-align: center;
     width:100%;
     font-size:12px;
+    font-family: "Press Start 2P", system-ui;
+    color:#BB885F;
 }
 .profile-second{
     display:flex;
     width:90%;
     flex-wrap:wrap;
-    background-color:#ff00006a;
-    border-top-left-radius: 100px;
-    border-bottom-left-radius: 100px;
-    border:3px solid #F37F6F;
+    background-color:#1b4839a3;
+    border-radius: 70px;
+    border: 3px solid #0000004D;
+    /* background-image: url(../image/minecraft.jpg); */
+    filter: brightness(-80);
+    background-color:rgba(23, 241, 219, 0.457);
 }
 .profile-input{
     display:flex;
     flex-wrap:wrap;
     width:39%;
-    height:100%;
     border-top-left-radius: 100px;
     border-bottom-left-radius: 100px;
     justify-content: center;
-    border-right: 7px solid #F37F6F;
+    overflow:hidden;
+    overflow: hidden;
 }
 .profile-input label{
     width:100%;
     display:flex;
     justify-content: center;
     font-size: 20px;
-    font-family: "Bevan", serif;
+    font-family: "Press Start 2P", system-ui;
+
     /* -webkit-text-stroke: #e12b2b 1px; */
-    text-shadow: red 0px 3.5px;
 }
 .profile-input input{
-    background-color:black;
+    width: 370px;
+    height: 40px;
+    border-radius: 5px;
+    outline: none;
     border:none;
-    outline:none;
-    border-bottom:3px solid #e12b2b;
-    border-radius:10px;
-    margin:10px auto;
-    color:white;
-    font-family: "Bevan", serif;
-    font-size:17px;
-    text-transform: uppercase;
+    box-shadow: #000000 8px 8px 8px 8px rgba(0,925, 0.925, 0.925, 0.925);
+    color: #000000;
+    margin: 15px;
+    font-size: 1.25rem; /* Font size */
+    padding: 5px; /* Padding */
+    background-color: #FAF4E6;
+    font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 2px;
+  text-align: start;
+}
+.profile-input span{
+    font-family: "Press Start 2P", system-ui;
+    text-shadow:none;
+    font-size:1.25rem;
 }
 .profile-input button{
-    background-color:black;
+    background-color:#00B014;
     margin:auto;
     width:140px;
     height:40px;
-    border:3px solid #e12b2b;
     transition: 0.2s;
     margin-top:30px;
     margin-bottom:27px;
+    font-family: "Press Start 2P", system-ui;
+
 }
 .profile-input button:hover{
     width:170px;
-
 }
 
 .background-right{
@@ -115,26 +139,95 @@
     flex-wrap:wrap;
     width:60%;
     height:100%;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
 }
 .background-right label{
     width:100%;
     display:flex;
     justify-content: center;
-    font-size:40px;
-    text-shadow: red 0px 3.5px;
+    font-size:7rem;
     flex-direction: column;
-    
+       font-family: "VT323", monospace;
+    color:#D5C3B5;
+    transform: perspective(500px) rotatex(20deg); /* Backward curvature */
+    text-shadow: 8px 8px 8px rgba(0.932, 0.932, 0.932, 0.932);
 }
 .profile-image{
     width:100%;
-    height:33vh;
+    height:25vh;
     display:flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 .profile-image-div{
-    width:60%;
-    height:28vh;
-    border-radius:50%;
-    border:5px solid #e12b2b;
+    width:50%;
+    height:24vh;
+    border-radius:40%;
+    border: 5px solid #0000004D;
 }
+@media screen and (max-width: 800px) {
+    .profile-input {
+        width: 100%;
+        overflow: hidden;
+        height: 110vh;
+        border-right: 0px;
+    }
+    .profile-main {
+        margin-left: 60px;
+    }
+    .profile-image-div {
+        width: 190px;
+    }
+    .profile-input input {
+        width: 250px;
+    }
+    .profile-second {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        overflow: auto;
+    }
+    .background-right {
+        width: 100%;
+        overflow: hidden;
+        height: 110vh;
+    }
+    .background-right label {
+        font-size: 3rem;
+    }
+}
+
+@media screen and (min-width: 801px) and (max-width: 1200px) {
+    .profile-input {
+        width: 100%;
+        overflow: hidden;
+        height: 110vh;
+        border-right: 0px;
+    }
+    .profile-main {
+        margin-left: 60px;
+    }
+    .profile-image-div {
+        width: 190px;
+    }
+    .profile-input input {
+        width: 450px;
+    }
+    .profile-second {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        overflow: auto;
+    }
+    .background-right {
+        width: 100%;
+        overflow: hidden;
+        height: 110vh;
+    }
+    .background-right label {
+        font-size: 3rem;
+    }
+}
+
+
+

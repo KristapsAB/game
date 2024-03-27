@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 *{
     padding:0;
     margin:0;
@@ -18,122 +19,127 @@ body{
     height: 100vh;
     width: 100%;
     align-items: center;
+    background-image: url(../image/minecraft.jpg);
+    filter: brightness(-80);
 }
 label{
     text-align: center;
     display:flex;
     font-size:2rem;
 }
-input{
-    width:350px;
-    height:40px;
-    border-radius:5px;
+input {
+    width: 350px;
+    height: 40px;
+    border-radius: 5px;
     outline: none;
-    border: none;
-    color:#000000;
-    margin:15px;
-    font-size:1.5rem;
-    font-weight:700;
-}
+    border:none;
+    box-shadow: #000000 8px 8px 8px 8px rgba(0,925, 0.925, 0.925, 0.925);
+    color: #000000;
+    margin: 15px;
+    font-size: 1.5rem; /* Font size */
+    padding: 5px; /* Padding */
+    background-color: #FAF4E6; /* Light gray background */
+    font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 2px;
+  text-align: start;
+  }
+  .register-link{
+    font-family: "Press Start 2P", system-ui;
+    position: relative;
+    top:10px;
+    color:white;
+    text-align: center;
+  }
+  .register-link a{
+    color:#BB885F
+  }
+  .login-link{
+    font-family: "Press Start 2P", system-ui;
+    position: relative;
+    top:10px;
+    color:white;
+    text-align: center;
+  }
+  .login-link a{
+    color:#BB885F
+  }
+  input {
+    image-rendering: pixelated;
+  }
+  
 h2{
     font-size:4rem;
-}
-button{
-    /* display:flex; */
-    margin:auto;
-    margin-top:20px;
-    width:200px;
-    height:50px;
-    align-content: center;
-    font-size:1.5rem;
-    font-weight:600;
-    text-align: center;
-    background-color:transparent;
-    border:none;
-    color:#FFFEF2;
-    border-radius:5px;
-    outline:#FE522A 3px solid;
-    cursor: pointer;
-}
-.button{
 
+}
+button {
+    margin: auto;
+    margin-top: 20px;
+    width: 200px;
+    height: 50px;
+    align-content: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    background-color: #00B014;
+    border: none;
+    color: #FFFEF2;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Press Start 2P", system-ui;
+    box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.808); /* Dark shadow on right and bottom */
+  }
+  
+.button{
     display:flex;
 
 }
 input::placeholder {
-    text-align: center;
+    text-align: start;
     display: flex;
     font-size: 1.5rem;
     color: #000000; /* Change this to your desired color code */
     opacity: 1; /* Ensure full opacity */
     font-weight:700;
 }
-.icon1{
-    position:absolute;
-    margin-right:500px;
-    width:100px;
-    height:100px;
-    rotate: -10deg;
-}
-.icon2{
-    position:absolute;
-    margin-right:700px;
-    margin-top:300px;
-    width:100px;
-    height:100px;
-    rotate: 15deg;
-}
-.icon3{
-    position:absolute;
-    margin-right:-700px;
-    margin-top:300px;
-    width:100px;
-    height:100px;
-    rotate: -15deg;
-}
-.icon4{
-    position:absolute;
-    margin-right:-500px;
-    width:100px;
-    height:100px;
-    rotate: 10deg;
-}
-.icon5{
-    position:absolute;
-    margin-right:900px;
-    margin-bottom:300px;
-    width:100px;
-    height:100px;
-    rotate: 10deg;
-}
-.icon6{
-    position:absolute;
-    margin-right:-900px;
-    margin-bottom:300px;
-    width:100px;
-    height:100px;
-    rotate: -10deg;
-}
-.icon7{
-    position:absolute;
-    margin-right:500px;
-    margin-bottom:300px;
-    width:100px;
-    height:100px;
-    rotate: 10deg;
-}
-.icon8{
-    position:absolute;
-    margin-left:800px;
-    margin-bottom:100px;
-    margin-top:520px;
-    width:100px;
-    height:100px;
-    rotate: -10deg;
-}
+/* styles.css */
+
+/* Style for the container of the Google login button */
+.google-login {
+    margin-top: 25px; /* Adjust the margin-top as needed */
+    flex-wrap:wrap;
+    display:flex;
+  }
+  
+  /* Style for the Google login button */
+  .custom-google-button {
+    background-color: #fff; /* Background color */
+    border: 1px solid #ccc; /* Border style */
+    color: #333; /* Text color */
+    padding: 10px 20px; /* Padding */
+    border-radius: 5px; /* Border radius */
+    cursor: pointer; /* Cursor style */
+    font-size: 16px; /* Font size */
+  }
+  
+  /* Hover effect for the Google login button */
+  .custom-google-button:hover {
+    background-color: #f0f0f0; /* Change background color on hover */
+  }
+  
+  /* Focus effect for the Google login button */
+  .custom-google-button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 0 2px #007bff; /* Add custom focus shadow */
+  }
+  
+
+  
 
 
-/* level */
+
+
 .level-main{
     display:flex;
     width:100%;
@@ -225,9 +231,16 @@ input::placeholder {
      letter-spacing: 2px; /* Adjust the value as needed */
 
 }
-.login-main h2{
-    font-size:4rem;
-}
+.login-main h2 {
+    font-size: 6rem;
+    font-family: "VT323", monospace;
+    text-transform: uppercase;
+    color: #D5C3B5;
+    text-shadow: 8px 8px 8px rgba(0.932, 0.932, 0.932, 0.932); /* Drop shadow */
+    transform: perspective(500px) rotatex(20deg); /* Backward curvature */
+  }
+  
+  
 .level-container4 img{
     width:150px;
     height:150px;
@@ -255,3 +268,13 @@ a {
   flex-wrap: wrap;
   justify-content: space-around;
 }
+.custom-google-button {
+    background-color: #fff !important;
+    border: 1px solid #ccc !important;
+    color: #333 !important;
+    padding: 10px 20px !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+  }
+  

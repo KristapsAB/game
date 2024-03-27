@@ -216,7 +216,37 @@ class User extends Database {
             return false;
         }
     }
-
+    public function checkUsernameExists($username) {
+        try {
+            $query = "SELECT * FROM users WHERE username = :username";
+            $stmt = $this->conn->prepare($query);
+    
+            $stmt->bindParam(":username", $username);
+    
+            $stmt->execute();
+    
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+    
+    public function checkEmailExists($email) {
+        try {
+            $query = "SELECT * FROM users WHERE email = :email";
+            $stmt = $this->conn->prepare($query);
+            
+            $stmt->bindParam(":email", $email);
+            
+            $stmt->execute();
+            
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            // Log the error or handle it as needed
+            error_log('PDOException: ' . $e->getMessage());
+            return false;
+        }
+    }
     
 }
 

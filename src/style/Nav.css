@@ -1,5 +1,6 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
-
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,500;1,100;1,600&display=swap');
 
@@ -31,7 +32,10 @@ nav.main-menu.expanded {
 }
 
 .main-menu {
-  background-color: #000000;
+  background-color:#000000;;
+  background-size: auto 100%; /* Adjust the background image size to fill the sidebar vertically */
+  background-repeat: no-repeat; /* Prevent the background image from repeating */
+  background-position: center; /* Center the background image */
   border-right: 1px solid #e5e5e5;
   position: fixed;
   top: 0;
@@ -45,6 +49,9 @@ nav.main-menu.expanded {
   z-index: 1000;
   outline: solid 2px yellow;
 }
+
+
+
 
 .main-menu>ul {
   margin: 7px 0;
@@ -83,7 +90,7 @@ nav.main-menu.expanded {
   display: table-cell;
   vertical-align: middle;
   width: 190px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Press Start 2P", system-ui;
 }
 
 .main-menu>ul.logout {
@@ -108,6 +115,8 @@ a:focus {
 
 nav {
   user-select: none;
+  font-family: "Press Start 2P", system-ui;
+  font-size:1rem;
 }
 
 nav ul,
@@ -157,3 +166,18 @@ nav.main-menu li.active>a,
   background-color: #333;
   color: #fff; /* Light text color */
 }
+.subnav a {
+  text-align: center; /* Option A for centering */
+  display: flex; /* Option B for centering (can be removed if using A) */
+  justify-content: center; /* Option B for centering (can be removed if using A) */
+  padding: 10px 20px; /* Adjust padding as needed */
+  background-color: transparent; /* Example background color */
+  color: #fff; /* Example text color */
+  border-radius: 5px; /* Add a subtle border radius */
+}
+
+.subnav a:hover {
+  background-color: transparent; /* Change background color on hover */
+  color: #FE522A; /* Change text color on hover */
+}
+

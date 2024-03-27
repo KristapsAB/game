@@ -1,29 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import './style/Nav.css';
-import BackgroundSelector from './BackgroundSelector'; // Adjust the path accordingly
+import wallpaper from './wallpapers/wallpaper29.png';
+import wallpaper1 from './wallpapers/wallpaper25.png';
+import wallpaper2 from './wallpapers/wallpaper32.png';
+import wallpaper3 from './wallpapers/wallpaper30.png';
 
 const MainMenu = () => {
-  // State for theme
-  const [selectedBackground, setSelectedBackground] = useState('');
-  const [isDarkTheme, setIsDarkTheme] = useState(() => {
-    // Retrieve theme preference from localStorage or use default value
-    return localStorage.getItem('isDarkTheme') === 'true' ? true : false;
-  });
-
-  // State for user's coins
+  const [selectedBackground, setSelectedBackground] = useState(localStorage.getItem('selectedBackground') || '');
+  const [isDarkTheme, setIsDarkTheme] = useState(localStorage.getItem('isDarkTheme') === 'true');
   const [userCoins, setUserCoins] = useState(0);
-  const handleBackgroundChange = (background) => {
-    // Save the selected background in localStorage
-    localStorage.setItem('selectedBackground', background);
-    setSelectedBackground(background);
-  };
-
-
-  // State for logged-in username
+  const [showBackgroundDropdown, setShowBackgroundDropdown] = useState(false);
   const [loggedInUsername, setLoggedInUsername] = useState('');
 
   useEffect(() => {
-    // Fetch user's coins from the server
+    const fetchUser = async () => {
+      try {
+        const loggedInUserData = JSON.parse(localStorage.getItem('loggedInUser'));
+
+        if (!loggedInUserData || !loggedInUserData.username) {
+          console.log('User data not available. Skipping fetchUser.');
+          return;
+        }
+
+        setLoggedInUsername(loggedInUserData.username);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
     const fetchUserCoins = async () => {
       try {
         const loggedInUserData = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -33,11 +41,7 @@ const MainMenu = () => {
           return;
         }
 
-        setLoggedInUsername(loggedInUserData.username);
-
         const userId = loggedInUserData.id;
-
-        // Replace the URL with the actual URL of your PHP script
         const url = `http://localhost:8888/game/getUserCoins.php?userId=${userId}`;
 
         const response = await fetch(url, {
@@ -68,21 +72,28 @@ const MainMenu = () => {
     };
 
     fetchUserCoins();
-  }, []); // Removed [loggedInUserData.id] to ensure it only runs once on mount
+  }, []);
+
+  useEffect(() => {
+    // Update background when selectedBackground changes
+    document.body.style.backgroundImage = `url(${selectedBackground})`;
+    localStorage.setItem('selectedBackground', selectedBackground);
+  }, [selectedBackground]);
 
   const handleLogout = () => {
-    // Clear local storage and redirect to the login page
     localStorage.removeItem('loggedInUser');
     localStorage.removeItem('isLoggedIn');
-    window.location.href = '/login'; // Redirect to the login page
+    window.location.href = '/login';
   };
 
-  // Function to toggle theme
   const toggleTheme = () => {
     const newThemeState = !isDarkTheme;
     setIsDarkTheme(newThemeState);
-    // Save theme preference in localStorage
     localStorage.setItem('isDarkTheme', newThemeState.toString());
+  };
+
+  const handleBackgroundChange = (background) => {
+    setSelectedBackground(background);
   };
 
   return (
@@ -90,20 +101,15 @@ const MainMenu = () => {
       <div className={`area${isDarkTheme ? ' dark-theme' : ''}`}></div>
       <nav className={`main-menu${isDarkTheme ? ' dark-theme' : ''}`}>
         <ul>
-          <li>
-            <a href="https://jbfarrow.com">
-              <i className="fa fa-home fa-2x"></i>
-              <span className="nav-text">Main Page</span>
-            </a>
-          </li>
+  
           <li className="has-subnav">
             <a href="/levels">
               <i className="fa fa-globe fa-2x"></i>
-              <span className="nav-text">View All Levels</span>
+              <span className="nav-text">Levels</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="/history">
               <i className="fa fa-signal fa-2x"></i>
               <span className="nav-text">Game History</span>
             </a>
@@ -126,20 +132,44 @@ const MainMenu = () => {
               <span className="nav-text">Credits: {userCoins} </span>
             </a>
           </li>
+          <li className="has-subnav" onMouseEnter={() => setShowBackgroundDropdown(true)} onMouseLeave={() => setShowBackgroundDropdown(false)}>
+            <a href="#">
+              <i className="fa fa-picture-o fa-2x"></i>
+              <span className="nav-text">Backgrounds</span>
+            </a>
+            {showBackgroundDropdown && (
+              <ul className="subnav" onMouseEnter={() => setShowBackgroundDropdown(true)} onMouseLeave={() => setShowBackgroundDropdown(false)}>
+                <li onMouseEnter={() => handleBackgroundChange(wallpaper)}>
+                  <span><a href="#">Single Father</a></span>
+                </li>
+                <li onMouseEnter={() => handleBackgroundChange(wallpaper1)}>
+                  <span><a href="#">Aqua Guy</a></span>
+                </li>
+                <li onMouseEnter={() => handleBackgroundChange(wallpaper2)}>
+                  <span><a href="#">Stone Guy</a></span>
+                </li>
+                <li onMouseEnter={() => handleBackgroundChange(wallpaper3)}>
+                  <span><a href="#">Purple Dude</a></span>
+                </li>
+              </ul>
+            )}
+          </li>
         </ul>
         <ul className="logout">
-          {loggedInUsername && (
-            <li>
-              <i className="fa fa-user fa-2x"></i>
-              <span className="nav-text">{loggedInUsername.toUpperCase()}</span>
-            </li>
-          )}
           <li>
             <a href="#" onClick={toggleTheme}>
               <i className="fa fa-adjust fa-2x"></i>
               <span className="nav-text">Toggle Theme</span>
             </a>
           </li>
+          <ul className="logout">
+          {loggedInUsername && (
+            <li>
+              <i className="fa fa-user fa-2x"></i>
+              <span className="nav-text">{loggedInUsername.toUpperCase()}</span>
+            </li>
+          )}
+          </ul>
           <li>
             <a href="#" onClick={handleLogout}>
               <i className="fa fa-power-off fa-2x"></i>

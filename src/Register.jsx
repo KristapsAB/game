@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import './style/styles.css'; // Adjust the file path based on your project structure
-import icon1 from './style/icon1.png';
-import heart from './style/heart.png';
-import spade from './style/spade.png';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './style/styles.css';
+
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +12,7 @@ const Register = () => {
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
-
+  const navigate = useNavigate();
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
@@ -36,7 +35,6 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      // Validation checks
       if (!isEmailValid(email)) {
         setRegistrationStatus({
           success: false,
@@ -76,10 +74,18 @@ const Register = () => {
   
       const result = await response.json();
   
-      setRegistrationStatus({
-        success: result.success,
-        message: result.message,
-      });
+      if (result.success) {
+        setRegistrationStatus({
+          success: true,
+          message: 'User registered successfully. Redirecting to login page...',
+        });
+        navigate('/login');
+      } else {
+        setRegistrationStatus({
+          success: false,
+          message: result.message,
+        });
+      }
     } catch (error) {
       console.error('Error:', error);
   
@@ -93,25 +99,17 @@ const Register = () => {
   
   return (
     <div className="login-main">
-      <img className='icon1' src={icon1} alt="Icon" />
-      <img className='icon2' src={icon1} alt="Icon" />
-      <img className='icon3' src={icon1} alt="Icon" />
-      <img className='icon4' src={icon1} alt="Icon" />
-      <img className='icon5' src={heart} alt="Icon" />
-      <img className='icon6' src={heart} alt="Icon" />
-      <img className='icon7' src={spade} alt="Icon" />
-      <img className='icon8' src={spade} alt="Icon" />
       <h2>Register</h2>
       <form>
-        <input type="text" value={username} onChange={handleUsernameChange} placeholder="USERNAME" />
+        <input type="text" value={username} onChange={handleUsernameChange} placeholder="Username" />
         <br />
-        <input type="email" value={email} onChange={handleEmailChange} placeholder="EMAIL" />
+        <input type="email" value={email} onChange={handleEmailChange} placeholder="Email" />
         <br />
-        <input type="password" value={password} onChange={handlePasswordChange} placeholder="PASSWORD" />
+        <input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" />
         <br />
         <div className="button">
           <button type="button" onClick={handleRegister}>
-            REGISTER
+            Register
           </button>
         </div>
       </form>
@@ -123,9 +121,12 @@ const Register = () => {
             : registrationStatus.message}
         </div>
       )}
+
+      <div className="login-link">
+        Already a user? <Link to="/login">Login now</Link>
+      </div>
     </div>
   );
-  
 };
 
 export default Register;

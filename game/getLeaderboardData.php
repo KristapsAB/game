@@ -1,4 +1,3 @@
-
 <?php
 
 header('Content-Type: application/json');
@@ -6,6 +5,7 @@ header('Access-Control-Allow-Origin: http://localhost:3000');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Credentials: true');
+
 $host = "localhost";
 $user = "root";
 $password = "root";
@@ -20,9 +20,22 @@ if ($conn->connect_error) {
 }
 
 // Fetch leaderboard data from the 'scores' table
-$sql = "SELECT users.username, scores.score FROM scores
-        INNER JOIN users ON scores.userId = users.id
-        ORDER BY scores.score DESC";
+// Check if level parameter is provided
+if (isset($_GET['level'])) {
+    $level = $_GET['level'];
+    $sql = "SELECT users.username, MIN(scores.score) as score 
+            FROM scores
+            INNER JOIN users ON scores.userId = users.id
+            WHERE scores.level = $level
+            GROUP BY users.id
+            ORDER BY MIN(scores.score) ASC"; // Fetching the minimum score for each level
+} else {
+    $sql = "SELECT users.username, MIN(scores.score) as score 
+            FROM scores
+            INNER JOIN users ON scores.userId = users.id
+            GROUP BY users.id
+            ORDER BY MIN(scores.score) ASC"; // Fetching the overall minimum score
+}
 
 $result = $conn->query($sql);
 

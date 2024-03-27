@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import './style/profile.css';
 import { useBackground } from './BackgroundContext';
-import wallpaper from './wallpapers/wallpaper7.jpg';
-import wallpaper1 from './wallpapers/wallpaper10.jpg';
-import wallpaper2 from './wallpapers/wallpaper8.jpg';
-import wallpaper3 from './wallpapers/wallpaper.jpg';
+import wallpaper from './wallpapers/wallpaper29.png';
+import wallpaper1 from './wallpapers/wallpaper25.png';
+import wallpaper2 from './wallpapers/wallpaper32.png';
+import wallpaper3 from './wallpapers/wallpaper30.png';
 import Cat from './profile/cat.jpg';
 import Dog from './profile/dog.png';
 const Profile = () => {
@@ -26,7 +26,7 @@ const Profile = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [duplicateUserError, setDuplicateUserError] = useState('');
   const [selectedBackground, setSelectedBackground] = useState('');
-  const [textColor, setTextColor] = useState('#FFFFFF'); // Default text color
+  const [textColor, setTextColor] = useState('#000000'); // Default text color
   const [inputStyle, setInputStyle] = useState({ border: '3px solid #e12b2b' }); // Default input style
 
   const applyBackgroundStyle = (background) => {
@@ -38,16 +38,16 @@ const Profile = () => {
 
   const updateDynamicStyles = (newBackground) => {
     if (newBackground === wallpaper1) {
-      setTextColor('#FFFFFF'); // Set text color to white
-      setInputStyle({ borderBottom: '3px solid #e12b2b' });
+      setTextColor('#000000'); // Set text color to white
+      setInputStyle({ borderBottom: 'none' });
     } else {
       resetDynamicStyles(); // Reset styles for other backgrounds
     }
   };
 
   const resetDynamicStyles = () => {
-    const defaultTextColor = '#FFFFFF';
-    const defaultInputStyle = { border: '1px solid #FFFFFF' };
+    const defaultTextColor = '#000000';
+    const defaultInputStyle = { border: 'none' };
 
     setTextColor(defaultTextColor);
     setInputStyle(defaultInputStyle);
@@ -99,7 +99,27 @@ const Profile = () => {
     }
   }, [changeBackground, selectedBackground]);
   
+  const checkEmailExists = async (email) => {
+    try {
+      const response = await fetch(`http://localhost:8888/game/checkEmailExists.php?email=${email}`, {
+        method: 'GET',
+        credentials: 'omit',
+      });
 
+      if (!response.ok) {
+        console.error(`HTTP error! Status: ${response.status}`);
+        console.log('Response text (checkEmailExists):', await response.text());
+        return false; // Treat as non-existing email on error
+      }
+
+      const result = await response.json();
+
+      return result.exists;
+    } catch (error) {
+      console.error('Error (checkEmailExists):', error);
+      return false; // Treat as non-existing email on error
+    }
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditedData({
@@ -163,13 +183,42 @@ const Profile = () => {
         console.error('Validation failed. Please check the form for errors.');
         return;
       }
-
+  
+      // Check if the edited username is different from the current username
+      const currentUsername = userData.username;
+      const editedUsername = editedData.username;
+  
+      if (currentUsername !== editedUsername) {
+        // Check for duplicate username
+        const usernameExists = await checkUsernameExists(editedData.username);
+  
+        if (usernameExists) {
+          setDuplicateUserError('Username already exists.');
+          return;
+        }
+      }
+  
+      // Check if the edited email is different from the current email
+      const currentEmail = userData.email;
+      const editedEmail = editedData.email;
+  
+      if (currentEmail !== editedEmail) {
+        // Check for duplicate email
+        const emailExists = await checkEmailExists(editedData.email);
+  
+        if (emailExists) {
+          setDuplicateUserError('Email already exists.');
+          return;
+        }
+      }
+  
+      // Proceed with saving the profile data
       const requestData = {
         username: editedData.username,
         email: editedData.email,
         ...(editedData.password && { password: editedData.password }),
       };
-
+  
       const response = await fetch(`http://localhost:8888/game/updateUserProfile.php?id=${userId}`, {
         method: 'POST',
         headers: {
@@ -178,18 +227,18 @@ const Profile = () => {
         credentials: 'omit',
         body: JSON.stringify(requestData),
       });
-
+  
       if (!response.ok) {
         console.error(`HTTP error! Status: ${response.status}`);
         console.log('Response text (handleSave):', await response.text());
         return;
       }
-
+  
       const result = await response.json();
-
+  
       if (result.success) {
         setUserData(result.userData);
-        setSuccessMessage('Profile data updated successfully');
+        setSuccessMessage('Data updated successfully');
         console.log('User data updated successfully');
       } else {
         if (result.errorCode === 'DUPLICATE_USER') {
@@ -202,6 +251,31 @@ const Profile = () => {
       console.error('Error (handleSave):', error);
     }
   };
+  
+  
+  
+  const checkUsernameExists = async (username) => {
+    try {
+      const response = await fetch(`http://localhost:8888/game/checkUsernameExists.php?username=${username}`, {
+        method: 'GET',
+        credentials: 'omit',
+      });
+  
+      if (!response.ok) {
+        console.error(`HTTP error! Status: ${response.status}`);
+        console.log('Response text (checkUsernameExists):', await response.text());
+        return false; // Treat as non-existing username on error
+      }
+  
+      const result = await response.json();
+  
+      return result.exists;
+    } catch (error) {
+      console.error('Error (checkUsernameExists):', error);
+      return false; // Treat as non-existing username on error
+    }
+  };
+  
 
   const handleBackgroundChange = (newBackground) => {
     setSelectedBackground(newBackground);
@@ -222,21 +296,22 @@ const Profile = () => {
             <div className='profile-image'>
               <img className='profile-image-div' src={Dog}></img>
             </div>
-        <label> <span>Username</span></label>
-        <input type="text" name="username" value={editedData.username} onChange={handleInputChange} style={{ color: textColor, ...inputStyle }} />
-        <div className="error-message">{validationErrors.username}</div>
+            <label><span>Username</span></label>
+  <input type="text" name="username" value={editedData.username} onChange={handleInputChange} style={{ color: textColor, ...inputStyle }} />
+  <div className="error-message">{validationErrors.username}</div> {/* Render username error message */}
+  {duplicateUserError && duplicateUserError.startsWith('Username already exists') && <div className="error-message">{duplicateUserError}</div>} {/* Render duplicate username error message */}
 
-        <label>Email</label>
-        <input type="text" name="email" value={editedData.email} onChange={handleInputChange} style={{ color: textColor, ...inputStyle }} />
-        <div className="error-message">{validationErrors.email}</div>
+  <label>Email</label>
+  <input type="text" name="email" value={editedData.email} onChange={handleInputChange} style={{ color: textColor, ...inputStyle }} />
+  <div className="error-message">{validationErrors.email}</div> {/* Render email error message */}
+  {duplicateUserError && duplicateUserError.startsWith('Email already exists') && <div className="error-message">{duplicateUserError}</div>} {/* Render duplicate email error message */}
 
-        <label>Password</label>
-        <input type="password" name="password" value={editedData.password} onChange={handleInputChange} style={{ color: textColor, ...inputStyle }} />
-        <div className="error-message">{validationErrors.password}</div>
+  <label>Password</label>
+  <input type="password" name="password" value={editedData.password} onChange={handleInputChange} style={{ color: textColor, ...inputStyle }} />
+  <div className="error-message">{validationErrors.password}</div> {/* Render password error message */}
 
-        {duplicateUserError && <div className="error-message">{duplicateUserError}</div>}
-        {successMessage && <div className="success-message">{successMessage}</div>}
-        <button onClick={handleSave}>Save</button>
+  {successMessage && <div className="success-message">{successMessage}</div>}
+  <button onClick={handleSave}>Save</button>
         </div>
         <div className='background-right'>
         <label>Change Background</label>

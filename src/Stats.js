@@ -5,7 +5,7 @@ import './style/stats.css';
 // Define a functional component
 function Stats() {
   // State variables using the useState hook
-  const [count, setCount] = useState(0);
+  const [count] = useState(0);
 
   // useEffect hook for side effects (e.g., data fetching, subscriptions)
   useEffect(() => {
@@ -13,9 +13,6 @@ function Stats() {
   }, [count]);
 
   // Event handler function
-  const handleIncrement = () => {
-    setCount(count + 1);
-  };
 
   // JSX structure for the component
   return (

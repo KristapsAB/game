@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import './style/game.css';
-import hearts from './image/heart.png';
-import spade from './image/spade.png';
-import diamondSide from './image/diamond-side.png';
-import Clubs from './image/clubs.png';
+import hearts from './image/minecraft13.png';
+import spade from './image/minecraft12.png';
+import diamondSide from './image/minecraft11.png';
+import Clubs from './image/minecraft10.png';
+import star from './image/minecraft9.png';
+import king from './image/minecraft8.png';
+import queen from './image/minecraft7.png';//yes	
+import jack from './image/minecraft6.png';//yes
+import rose from './image/minecraft14.png';	
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const Game = () => {
+const Game = ( {levels, levelNumber} ) => {
   const location = useLocation();
   const levelConfig = location.state;
-  const symbols = [hearts, spade, diamondSide, Clubs];
+  const symbols = [hearts, spade, diamondSide, Clubs, star, king, queen, jack,rose];
   const numberOfCards = levelConfig?.numberOfCards || 12; // Adjust the default value as needed
   const numberOfMatchesToWin = levelConfig?.numberOfMatchesToWin || 3;
   const hintDelay = levelConfig?.hintDelay || 3000;
@@ -17,37 +22,68 @@ const Game = () => {
   const navigate = useNavigate();
   const [insufficientCoins, setInsufficientCoins] = useState(false);
 
-  console.log('Level Config:', levelConfig);
+  // console.log('Level Config:', levelConfig);
   const generateRandomCards = () => {
-    const initialCards = symbols
-      .map((symbol, index) =>
-        Array.from({ length: numberOfCards / symbols.length }, () => ({
-          id: Math.random(),
-          img: symbol,
-          matched: false,
-          type: index,
-        }))
-      )
-      .flat();
-
-    // Shuffle the cards
-    return initialCards.sort(() => Math.random() - 0.5);
+    const allSymbols = [...symbols]; 
+    const symbolCounts = new Map();
+  
+    const shuffledSymbols = allSymbols.sort(() => Math.random() - 0.5);
+  
+    const matchingPairs = shuffledSymbols.slice(0, numberOfMatchesToWin);
+  
+    let initialCards = matchingPairs.flatMap((symbol, index) => {
+      const matchingCards = Array.from(
+        { length: numberOfCards / numberOfMatchesToWin },
+        (_, i) => {
+          if (!symbolCounts.has(symbol)) {
+            symbolCounts.set(symbol, 1);
+          } else if (symbolCounts.get(symbol) < numberOfMatchesToWin) {
+            symbolCounts.set(symbol, symbolCounts.get(symbol) + 1);
+          } else {
+            const nextSymbolIndex = shuffledSymbols.findIndex(
+              (s) => !symbolCounts.has(s) || symbolCounts.get(s) < numberOfMatchesToWin
+            );
+            if (nextSymbolIndex !== -1) {
+              const nextSymbol = shuffledSymbols[nextSymbolIndex];
+              symbolCounts.set(nextSymbol, (symbolCounts.get(nextSymbol) || 0) + 1);
+              symbol = nextSymbol;
+            } else {
+              throw new Error(
+                'Invalid level configuration: Not enough unique symbols for required matches.'
+              );
+            }
+          }
+  
+          return {
+            id: Math.random(),
+            img: symbol,
+            matched: false,
+            type: index,
+          };
+        }
+      );
+  
+      return matchingCards;
+    });
+  
+    initialCards = initialCards.sort(() => Math.random() - 0.5);
+  
+    return initialCards;
   };
+  
 
   
 
-  const handleRetry = () => {
-    setShowGiveUpPopup(false);
-    resetGame();
-  };
-
+  
+  
   const [cards, setCards] = useState(generateRandomCards(levelConfig?.numberOfCards || 12));
 
   const [flippedCount, setFlippedCount] = useState(0);
   const [flippedIndexes, setFlippedIndexes] = useState([]);
   const [checkingForMatch, setCheckingForMatch] = useState(false);
   const [hintUsed, setHintUsed] = useState(false);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(gameDuration); // Initialize with gameDuration
+
   const [gameOver, setGameOver] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
   const [userId, setUserId] = useState(""); // State to store user ID
@@ -55,11 +91,9 @@ const Game = () => {
   const [coins, setCoins] = useState(0); // State to store user's coins
 
   useEffect(() => {
-    // Fetch userId from sessionStorage
     const storedUserId = sessionStorage.getItem('userId');
     setUserId(storedUserId);
 
-    // Fetch user's coin balance
     const fetchCoinBalance = async () => {
       try {
         const coinBalanceResponse = await fetch(
@@ -75,7 +109,6 @@ const Game = () => {
         const coinBalanceResult = await coinBalanceResponse.json();
 
         if (coinBalanceResult.success) {
-          // Update user's coin balance in state
           setCoins(coinBalanceResult.coins);
         } else {
           console.error('Failed to fetch coin balance:', coinBalanceResult.message);
@@ -100,27 +133,25 @@ const Game = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTimer((prevTimer) => {
-        if (prevTimer >= gameDuration) {
-          // Game duration reached, end the game
+        if (prevTimer <= 0) {
           setGameOver(true);
           clearInterval(intervalId);
-          return gameDuration; // Ensure the timer stops at 2:00
+          return 0; 
         }
         if (gameCompleted) {
-          // If the game is completed, stop the timer
           clearInterval(intervalId);
           return prevTimer;
         }
-        return prevTimer + 1;
+        return prevTimer - 1; 
       });
     }, 1000);
-
+  
     return () => clearInterval(intervalId);
   }, [timer, gameDuration, gameCompleted]);
+  
 
   useEffect(() => {
     if (cards.filter((card) => card.matched).length === cards.length) {
-      // All cards matched, set gameCompleted to true
       setGameCompleted(true);
     }
   }, [cards]);
@@ -181,17 +212,23 @@ const Game = () => {
       setGameCompleted(true);
     }
   };
-
+  const handleRetry = () => {
+    setTimer(gameDuration); // Reset the timer to the initial game duration
+    resetGame(); // Reset the game after setting the timer
+    setShowGiveUpPopup(false); // Hide the "Give Up" popup
+  };
   const resetGame = () => {
     setCards(generateRandomCards());
     setFlippedCount(0);
     setFlippedIndexes([]);
     setCheckingForMatch(false);
     setHintUsed(false);
-    setTimer(0);
     setGameOver(false);
     setGameCompleted(false);
     setShowGiveUpPopup(false); // Hide the "Give Up" popup on reset
+    
+    // Reset the timer to the initial game duration
+    setTimer(gameDuration);
   };
 
   const useHint = async () => {
@@ -276,84 +313,87 @@ const Game = () => {
       }
     }
   };
-  
+
   const handleGameCompletion = async () => {
     try {
-      const level = 1; // Replace with the actual level
-      const score = calculateScore(); // Implement a function to calculate the score
-
-      // Replace the URL with the actual URL of your PHP script
-      const url = 'http://localhost:8888/game/saveScore.php';
-
-      const response = await fetch(url, {
+      if (!levelNumber) {
+        console.error('Invalid level number:', levelNumber);
+        return;
+      }
+  
+      const level = levels[levelNumber];
+      if (!level) {
+        console.error('Invalid level:', levelNumber);
+        return;
+      }
+  
+      const score = calculateScore(level.gameDuration, timer);
+      console.log('Score:', score);
+  
+      const coinsEarned = level.reward; // Get the reward for the level
+  
+      const saveScoreUrl = 'http://localhost:8888/game/saveScore.php';
+      const response = await fetch(saveScoreUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: `userId=${userId}&level=${level}&score=${score}`,
-        credentials: 'include', // Add this line
-        mode: 'cors', // Add this line
+        body: `userId=${userId}&level=${levelNumber}&score=${score}&coinsEarned=${coinsEarned}`, // Include coinsEarned in the body
+        credentials: 'include',
+        mode: 'cors',
       });
-
+  
+      console.log('Response status:', response.status);
+  
       if (!response.ok) {
         console.error(`HTTP error! Status: ${response.status}`);
         console.log('Response text:', await response.text());
         return;
       }
-
-      const result = await response.json();
-
-      if (result.success) {
-        // Score updated successfully
-
-        // Check if the game is completed before adding coins
-        if (gameCompleted) {
-          const coinsEarned = 5;
-
-          const updateCoinsUrl = 'http://localhost:8888/game/updateCoins.php'; // Replace with the actual URL
-          const updateCoinsResponse = await fetch(updateCoinsUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `userId=${userId}&coins=${coinsEarned}`,
-            credentials: 'include', // Add this line
-            mode: 'cors', // Add this line
-          });
-
-          if (!updateCoinsResponse.ok) {
-            console.error(`HTTP error! Status: ${updateCoinsResponse.status}`);
-            console.log('Response text:', await updateCoinsResponse.text());
-            return;
-          }
-
-          const updateCoinsResult = await updateCoinsResponse.json();
-
-          if (updateCoinsResult.success) {
-            console.log('Coins updated successfully');
-          } else {
-            console.error('Failed to update coins:', updateCoinsResult.message);
-          }
-        }
-
-        console.log('Score updated successfully');
-
-        // Redirect to the start page
-        // navigate('/levels'); // Replace '/start' with the actual route of your start page
-      } else {
-        console.error('Failed to update score:', result.message);
+  
+      const responseText = await response.text();
+      console.log('Response text:', responseText);
+  
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (error) {
+        console.error('Error parsing response JSON:', error.message);
+        return;
       }
+  
+      console.log('Result from server:', result);
+  
+      if (!result.success) {
+        console.error('Failed to save score:', result.message);
+        return;
+      }
+  
+      console.log(`Score for level ${levelNumber} saved successfully`);
+  
+      setCoins((prevCoins) => prevCoins + coinsEarned); // Update user's coin balance
+  
+      navigate('/levels');
     } catch (error) {
       console.error('Error:', error);
     }
   };
-
-  const calculateScore = () => {
-    // Implement the logic to calculate the score based on game performance
-    // You might consider factors like time taken, hints used, etc.
-    // For simplicity, let's assume a basic score for now.
-    return gameDuration - timer;
+  
+  const calculateScore = (hintsUsed, timeTaken, cardsFlipped) => {
+    const hintWeight = 10; 
+    const timeWeight = 1;
+    const cardWeight = 5; 
+  
+    const hintScore = hintsUsed * hintWeight || 0;
+    const timeScore = timeTaken * timeWeight || 0; 
+    const cardScore = cardsFlipped * cardWeight || 0; 
+  
+    const totalScore = hintScore + timeScore + cardScore;
+  
+    return totalScore;
   };
+  
+  
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -375,15 +415,32 @@ const Game = () => {
         </div>
       )}
 
-      {gameCompleted && (
-        <div className="blur">
-          <div className="popup">
-            <p>{`Congratulations! You finished the game in ${formatTime(timer)}`}</p>
-            <button onClick={handleGameCompletion}>Save Score</button>
-            <button onClick={() => alert('Redirecting to Levels')}>Go to Levels Page</button>
-          </div>
+{gameCompleted && (
+  <div className="victory-overlay">
+    <div className="blur">
+      <div className="victory-popup">
+        <p>Congratulations!</p>
+        <p>You finished the game in {formatTime(timer)}</p>
+        <button onClick={handleGameCompletion}>Save Score</button>
+        <button onClick={() => alert('Redirecting to Levels')}>Go to Levels Page</button>
+        <div className="coin-rain-container">
+          <div className="coin"></div>
+          <div className="coin"></div>
+          <div className="coin"></div>
+          <div className="coin"></div>
+          <div className="coin"></div>
+          <div className="coin"></div>
+          <div className="coin"></div>
+          <div className="coin"></div>
+          <div className="coin"></div>
         </div>
-      )}
+      </div>
+    </div>
+  </div>
+)}
+
+
+
 
       {insufficientCoins && (
         <div className="corner-alert">
@@ -396,6 +453,7 @@ const Game = () => {
         </button>
         <div className="timer-container">{formatTime(timer)}</div>
         <button onClick={() => setShowGiveUpPopup(true)}>GIVE UP</button>
+        
       </div>
 
       <div className="card-container">
@@ -434,20 +492,18 @@ const renderCornerSymbol = (type) => {
   return (
     <div className="symbol">
       <div className="top-left">
-        <div className="text">A</div>
-        {type === 0 && <div className="icon">&#x2665;</div>}
+        {/* {type === 0 && <div className="icon">&#x2665;</div>}
         {type === 1 && <div className="icon">&#x2660;</div>}
         {type === 2 && <div className="icon">&#x2666;</div>}
         {type === 3 && <div className="icon">&#x2663;</div>}
-        {type === 4 && <div className="icon">&#x2665;</div>}
+        {type === 4 && <div className="icon">&#x2665;</div>} */}
       </div>
       <div className="bottom-right">
-        <div className="text2">A</div>
-        {type === 0 && <div className="icon">&#x2665;</div>}
+        {/* {type === 0 && <div className="icon">&#x2665;</div>}
         {type === 1 && <div className="icon">&#x2660;</div>}
         {type === 2 && <div className="icon">&#x2666;</div>}
         {type === 3 && <div className="icon">&#x2663;</div>}
-        {type === 4 && <div className="icon">&#x2665;</div>}
+        {type === 4 && <div className="icon">&#x2665;</div>} */}
       </div>
     </div>
   );

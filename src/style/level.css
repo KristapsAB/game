@@ -1,99 +1,184 @@
-/* ... existing styles ... */
 @import url('https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&display=swap');
-*{
-    overflow:hidden;
-}.levels-container {
-  display: flex;
-  align-items: center;
-  width: 100%; /* Ensures container fills the available space */
-  padding: 20px;
-  background-color: #000000;
-  flex-direction: row;
-  justify-content: center;
-  font-family: 'Bebas Neue', sans-serif;
-  
+
+* {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
-  .level-grid {
+
+.levels-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    min-height:100vh;
+    flex-direction: row;
+    font-family: 'Bebas Neue', sans-serif;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.level-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     gap: 20px;
-    width:80%;
+    width: 85%;
     justify-content: center;
     align-items: center;
-  }
-  
-/* Original styles */
+    overflow: hidden;
+}
+
 .level-card {
-    background-color: transparent; /* White background for cards */
+    background-color: #1c09199a;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 15px;
     text-align: center;
-    border: 3px solid #FFFB95;
     border-radius: 30px;
-    width: 150px;
-  }
-  
-  /* Hover effect with border preservation */
-  .level-card:hover {
-    transform: scale(1.015); /* Adjust scaling factor if needed */
+    width: 180px;
+    background-image: url(../image/grass.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-position: center;
+}
+
+.level-card:hover {
+    transform: scale(1.015);
     transition: 0.5s;
     box-shadow: 0px 4px 20px 0px rgba(255, 215, 0, 0.6);
     -webkit-box-shadow: 0px 4px 20px 0px rgba(255, 215, 0, 0.6);
     -moz-box-shadow: 0px 4px 20px 0px rgba(255, 215, 0, 0.6);
-  
-    /* Added properties to maintain border and content visibility */
-    border: 3px solid #FFFB95;
-    overflow: visible; /* Allow content within the card to expand */
-  }
-  
-  .level-card button{
-    border:none;
+    overflow: visible;
+}
+
+.level-card button {
+    border: none;
     outline: none;
-    font-size:1rem;
-    width:150px;
+    font-size: 1rem;
+    width: 150px;
     text-transform: uppercase;
-    
-  }
-  .level-card button:hover{
-    font-size:1.5rem;
-    transition: 0.5s;
-  }
-  .level-header,
-  .level-body {
-    margin-bottom: 10px;
-  }
-  
-  .level-header h2 {
-    font-size: 1.5em;
-    margin-bottom: 5px;
-    font-family: 'Bebas Neue', sans-serif;
-    color:white;
-    text-shadow: red 0px 3.5px;
-  }
-  
-  .level-header p,
-  .level-body p {
+}
+
+.level-card button:hover {
     font-size: 1.5rem;
+    transition: 0.5s;
+}
+
+.level-header,
+.level-body {
+    margin-bottom: 10px;
+}
+
+.level-header h2 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+    font-family: "VT323", monospace;
+    color: #D5C3B5;
+    text-shadow: black 0px 3.5px;
+    transform: perspective(500px) rotatex(30deg);
+    text-transform: uppercase;
+}
+
+.level-header img,
+.level-body img {
+    margin: 0 auto;
+}
+
+.level-header img {
+    width: 20px;
+    height: auto;
+}
+
+.level-body img {
+    width: 20px;
+    height: auto;
+    position: absolute;
+}
+
+.level-header p,
+.level-body p {
+    font-size: 1.25rem;
     margin: 0;
-    font-family: 'Bebas Neue', sans-serif;
-  }
-  /* In your level.css file */
+    font-family: "Press Start 2P", system-ui;
+    text-shadow: none;
+    color: #f8f8ff;
+}
 
-  .pagination {
+.pagination {
     display: flex;
-    justify-content: flex-end; /* Align to the right */
+    justify-content: flex-end;
     align-items: center;
-    margin-top: 20px; /* Adjust spacing as needed */
-  }
-  @media screen and (max-width: 549px) {
+    margin-top: 20px;
+}
+
+/* Media Queries */
+@media screen and (max-width: 1200px) {
     .level-grid {
-        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); /* Adjust column size as needed */
-      justify-content: center;
-      position: relative;
-      left:70px;
-      height:350vh;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
-  
+}
+
+@media screen and (max-width: 1000px) {
+    .level-grid {
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .levels-container {
+        height: auto;
+    }
+
+    .level-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        position: relative;
+        left: 0;
+        height: auto;
+    }
+
+    .level-card {
+        margin-top: 20px;
+    }
+}
+@media screen and (max-width: 800px) {
+  .levels-container {
+      height: auto;
   }
 
+  .level-grid {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      position: relative;
+      left: 0;
+      height: auto;
+  }
+  .level-card{
+    margin:20px;
+  }
+
+  .level-card {
+      margin-top: 20px;
+  }
+}@media screen and (max-width: 799px) {
+  .levels-container {
+      height: auto;
+  }
+
+  .level-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      position: relative;
+      margin-left:60px;
+      height: auto;
+
+  }
+
+  .level-card {
+      margin-top: 20px;
+  }
+}

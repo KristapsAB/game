@@ -2,33 +2,30 @@
 
 .game-main{
     width:100%;
-    height:100vh;
     display:flex;
     align-content: center;
-    background-image: url( ../image/background.jpg );
+    /* background-image: url( ../image/background.jpg ); */
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: 100% 100% fit;
+    min-height: 100vh;
     flex-direction: column;
     margin:auto;
     overflow: hidden;
 }
 .game-main button{
-  font-family: 'Bebas Neue', sans-serif;
-    font-size: 3rem;
+  font-family: "Press Start 2P", system-ui;
+    font-size: 1.25rem;
     width: 300px;
     display: flex;
     align-content: center;
     justify-content: center;
     align-items: center;
-    color:rgb(233, 95, 95);
+    color:rgb(255, 255, 255);
     text-shadow: #A9B949 1px 0 3px;
     border-radius: 10px;
-    background-color: #1C0919;
-    outline: #FFD700 7px solid;
+    background-color: #00B014;
     border-radius:10px;
     flex-wrap:wrap;
-    -webkit-text-stroke-color: red;
-    -webkit-text-stroke-width: 1px;
     letter-spacing: 2px;
 }
 
@@ -36,9 +33,8 @@
     display:flex;
     justify-content: space-evenly;
     width:80%;
-    height:30vh;
     margin:auto;
-    margin-top:30px;
+
 }
 .timer-container {
     display: flex;
@@ -46,53 +42,57 @@
     align-content: center;
     height: auto;
     font-size: 4rem;
-    color: #FFD700;
+    color: white;
     padding: 7px;
     border-radius:20px;
+    background-color:#38cca991;
     height: 5vh;
     width: 300px;
     position: relative; /* Position relative for absolute positioning of the pseudo-element */
-    border-bottom: #FFD700 5px solid ;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
-    box-shadow: #FFD700 2px 2px 2px 2px;
     margin-top:15px;
     align-items: center;
+    overflow: hidden; 
+    font-family: "VT323", monospace;
 }
 .card-container{
-    width:100%;
-    height:100vh;
+    
     margin:auto;
     display:flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    min-width: 100%;
+
 }
 
-.card1{
-    width:192px;
-    height:295px;
-    background-image:url(../image/cardbg.png);
-    background-size: 100% 100%;
-    position:relative;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    border-radius:20px;
-    flex-direction: column;
-    margin:10px;
-    transition: transform 0.5s ease-in-out;
-    outline: #FFD700 5px solid;
+.card1 {
+  width: 130px; 
+  height: 170px; 
+  background-image: url(../image/cards.jpg);
+  background-size: cover; /* Use cover to maintain aspect ratio and cover the entire card */
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 20px;
+  flex-direction: column;
+  margin: 0.5vw;
+  transition: transform 0.5s ease-in-out;
+
 }
+
 .flipped {
     transform: rotateY(180deg);
+    
   }
 .card1 img{
-    width:123px;
-    height:114px;
-    transform: rotateY(180deg); /* You might have a different transform here */
-    position: relative;
-    bottom:120px;
+  transform: rotateY(180deg);
+  position: relative;
+  width: 144px;
+  height: 171px;
+    
 }
 .card-text-first{
 display:flex;
@@ -335,7 +335,7 @@ top: 70px;
     display: flex;
     width: 600px;
     height: 550px;
-    background-image: url(../image/cardbg.png);
+    background-image: url(../image/cards.jpg);
     align-items: center;
     justify-content: center;
     font-size: 5rem;
@@ -347,10 +347,10 @@ top: 70px;
     top: 50%;
     transform: translate(-50%, -50%);
     border-radius: 20px;
-    outline: #FFD700 5px solid;
     /* new styles for backdrop-filter */
     backdrop-filter: blur(8px); /* adjust the blur strength as needed */
     z-index: 9999; /* Ensure the popup is on top */
+    overflow: hidden;
   }
   
   .popup button {
@@ -362,13 +362,18 @@ top: 70px;
     height: 70px;
     position: relative;
     top: 30px;
+    font-size:1.5rem;
   }
   
   .popup p {
-    /* existing styles for .popup p */
+    font-family: "VT323", monospace;
     margin-top: auto;
-    font-size: 4rem;
+    font-size: 5rem;
     text-align: center;
+    text-shadow: 8px 8px 8px rgba(0.932, 0.932, 0.932, 0.932); /* Drop shadow */
+    color: #D5C3B5;
+    text-transform: uppercase;
+    transform: perspective(500px) rotatex(20deg); /* Backward curvature */
   }
   
   .blur {
@@ -384,36 +389,223 @@ top: 70px;
     backdrop-filter: blur(8px); /* adjust the blur strength as needed */
     z-index: 9998; /* Ensure the blur is behind the popup */
   }
-  .card-container-80{
-    width:90%;
-    display:flex;
-    flex-wrap:wrap;
+  .card-container-80 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); /* Columns with minimum width of 200px and maximum 1fr */
+    gap: 5px;
+    width:80%;
+    justify-content: space-around;
+    align-items: center;
     position: relative;
-    left:30px;
+    left:25px;
+    min-height:80vh;
+    max-height:100vh;
   }
+  .hidden {
+    display: none;
+  }
+  
 
   .corner-alert {
-    position: absolute;
-    top: 120px;
-    right: 820px;
-    background-color:transparent;
-    color: red;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    word-wrap: break-word;
-    
+    position: fixed;
+    top: 30px; /* Adjust the top position as needed */
+    left: 50px; /* Adjust the left position as needed */
+    z-index: 9999; /* Set a high z-index value to ensure it's displayed on top */
   }
-  .corner-alert p{
-    text-shadow: 
-    -1px -1px 0 #A9966C, /* Top left */
-     1px -1px 0 #A9966C, /* Top right */
-    -1px  1px 0 #A9966C, /* Bottom left */
-     1px  1px 0 #A9966C; /* Bottom right */
-
+  
+  .corner-alert p {
+    color: white;
+    font-family: "VT323", monospace;
+    position: relative;
+    background-color: transparent;
+    text-align: center;
+    height: 100px;
+    overflow: hidden;
+    font-size: 2rem;
+    width: 620px;
   }
+  
   .alert-message {
     margin: 0;
+    font-family: "VT323", monospace;
+
+  }.victory-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fade-in 0.5s ease-in-out;
+  }
+  .coin-rain-container {
+    position: absolute;
+    top: 0;
+    left: 50%; /* Adjust horizontal positioning */
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .coin {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-image: url("../image/coin.png");
+    background-size: cover;
+    animation: coin-fall 2s ease-in-out infinite alternate;
   }
   
+  @keyframes coin-fall {
+    0% {
+      transform: translateY(-150px) rotate(calc(360deg * random(0, 1))); /* Wider starting range */
+    }
+    100% {
+      transform: translateY(120vh) rotate(360deg);
+    }
+  }
   
+  .coin:nth-child(1) {
+    animation-delay: 0s;
+    top: 10px;
+    left: 10px;
+  }
+  
+  .coin:nth-child(2) {
+    animation-delay: 0.2s;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .coin:nth-child(3) {
+    animation-delay: 0.4s;
+    bottom: 10px;
+    left: 10px;
+  }
+  
+  .coin:nth-child(4) {
+    animation-delay: 0.6s;
+    bottom: 10px;
+    right: 10px;
+  }
+  .coin:nth-child(6) {
+    animation-delay: 0.6s;
+    bottom: 10px;
+    right: 30px;
+  }
+  
+  .coin:nth-child(5) {
+    animation-delay: 0.8s;
+    top: 50%;
+    left: 20%;
+    transform: translate(-20%, -30%);
+  }
+  
+
+.victory-popup {
+  position: absolute;
+  display: flex;
+  width: 600px;
+  height: 550px;
+  background-image: url(../image/cards.jpg);
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  font-family: "VT323", monospace;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  /* new styles for backdrop-filter */
+  backdrop-filter: blur(8px); /* adjust the blur strength as needed */
+  z-index: 9999; /* Ensure the popup is on top */
+  overflow: hidden;
+  text-align: center;
+}
+.victory-popup button {
+    width:auto;
+    margin:20px;
+    z-index: 100;
+    
+}
+.victory-popup p{
+  font-size:4rem;
+  overflow: hidden;
+  font-family: "VT323", monospace;
+  color: #D5C3B5;
+  transform: perspective(500px) rotatex(20deg); /* Backward curvature */
+}
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes text-pop {
+    from { transform: scale(0.9); } /* Text slightly shrinks */
+    to { transform: scale(1); } /* Text returns to normal size */
+  }
+  
+
+  @media screen and (max-width: 605px) {
+    .game-buttons{
+      flex-wrap:wrap;
+      position: relative;
+      left:30px;
+      height:17vh;
+      top:0px;
+    }
+    .game-main button{
+      font-size:0.8rem;
+      width:100px;
+      height:30px;
+    }
+    .timer-container{
+      width:120px;
+      height:20px;
+      font-size:1.25rem;
+      margin-top:15px;
+      align-items: center;
+      overflow: hidden;
+    }
+    .card-container-80{
+      display:flex;
+      justify-content: center;
+      flex-wrap:wrap;
+      position: relative;
+      left:30px;
+    }
+    .card1{
+      width: 50px;
+      height: 70px;
+      margin: 10px;
+      border-radius:10px;
+    }
+    .card1 img{
+      height:120px;
+    }
+    .popup{
+      width:325px;
+      height: 350px;
+    }
+    .popup p{
+      font-size:4rem;
+    }
+    .victory-popup{
+      width:300px;
+      height:350px;
+      font-size:2rem;
+    }
+    .victory-popup p{
+     
+      font-size:2rem;
+    }
+    .victory-popup button{
+      height:40px;
+    }
+  }

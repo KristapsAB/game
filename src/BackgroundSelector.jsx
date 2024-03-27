@@ -1,36 +1,21 @@
-// BackgroundSelector.jsx
+import React from 'react';
 
-import React, { useState } from 'react';
-
-const BackgroundSelector = ({ onSelectBackground }) => {
-  const [selectedBackground, setSelectedBackground] = useState('');
-
-  const backgroundOptions = [
-    'background1.jpg',
-    'background2.jpg',
-    'background3.jpg',
-    // Add more background options as needed
-  ];
-
-  const handleBackgroundClick = (background) => {
-    setSelectedBackground(background);
-    onSelectBackground(background);
+const BackgroundSelector = ({ onSelectBackground, wallpapers }) => {
+  const handleChange = (event) => {
+    const selectedBackground = event.target.value;
+    onSelectBackground(selectedBackground);
   };
 
   return (
     <div className="background-selector">
       <h3>Choose Background</h3>
-      <div className="background-options">
-        {backgroundOptions.map((background, index) => (
-          <div
-            key={index}
-            className={`background-option ${background === selectedBackground ? 'selected' : ''}`}
-            onClick={() => handleBackgroundClick(background)}
-          >
-            <img src={background} alt={`Background ${index + 1}`} />
-          </div>
+      <select onChange={handleChange}>
+        {wallpapers.map((wallpaper, index) => (
+          <option key={index} value={wallpaper}>
+            {`Background ${index + 1}`}
+          </option>
         ))}
-      </div>
+      </select>
     </div>
   );
 };

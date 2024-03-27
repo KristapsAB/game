@@ -1,18 +1,114 @@
-.game-history-container{
-    width:100%;
-    height:100vh;
-    display:flex;
-    flex-wrap:wrap;
+.game-history-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-}
-.game-history-main{
-    width:80%;
-    display:flex;
+  }
+  
+  .game-history-main {
+    width: 80%;
+    display: flex;
     flex-direction: column;
-}
-.game-row{
-    width:100%;
-    display:flex;
-    justify-content: space-evenly;
-}
+    animation: fadeInUp 0.7s ease-in-out forwards; /* Animation for main content */
+    font-family: 'Bebas Neue', sans-serif;
+    align-items: center;
+  }
+  .game-history-main h2{
+    text-align: center;
+    font-size:7rem;
+    font-family: "VT323", monospace;
+    color:#0d3124e5;
+    text-transform: uppercase;
+    transform: perspective(500px) rotatex(20deg); /* Backward curvature */
+  }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .game-history-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Adjust spacing as needed */
+    margin: 20px 0;
+  }
+  
+  .game-item {
+    width: 300px; /* Adjust width for desired layout */
+    background-color: #1b4839a3;
+    border-radius: 5px;
+    margin: 10px;
+    box-shadow: 
+      0 0 0 3px #4CEAD44D, /* This creates the pixely outline effect */
+      0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    font-size: 1.25rem;
+    font-family: "Press Start 2P", system-ui;
+    padding: 6px;
+  }
+  
+  
+  @keyframes bounceIn {
+    from,
+    20%,
+    40%,
+    60%,
+    80%,
+    to {
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.35, 1);
+    }
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+
+
+@media screen and (max-width: 605px) {
+    /* Styles for screens <= 375px wide */
+  
+    .game-history-container {
+      align-items: flex-start; /* Align content at the top on small screens */
+    }
+  
+    .game-history-main {
+      width: 90%; /* Adjust main content width for better fit */
+    }
+  
+    .game-history-main h2 {
+      font-size: 2.5rem; /* Reduce heading size for better scaling */
+      margin-right: -60px;
+
+    }
+  
+    .game-history-list {
+      flex-direction: column; /* Stack items vertically on small screens */
+      justify-content: space-between; /* Distribute items with some spacing */
+      margin-right: -60px;
+    }
+  
+    .game-item {
+      width: 220px;
+    
+    }
+    .game-info{
+        width:80%;
+    }
+  }
+  
